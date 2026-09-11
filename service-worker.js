@@ -30,8 +30,8 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
-  // API requests (Gemini): Network only
-  if (event.request.url.includes('generativelanguage.googleapis.com')) {
+  // API requests: Network only
+  if (event.request.url.includes('/api/') || event.request.url.includes('generativelanguage.googleapis.com')) {
     return;
   }
 

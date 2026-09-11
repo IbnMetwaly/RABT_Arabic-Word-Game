@@ -395,23 +395,29 @@ const App: React.FC = () => {
             </div>
 
             {/* Main Word Grid */}
-            <div className="flex-grow grid grid-cols-4 gap-2 content-start overflow-y-auto no-scrollbar py-2">
-              {state.currentLevel.words.map((word) => {
-                const category = state.currentLevel?.categories.find(c => c.id === word.categoryId);
-                const shouldShowHint = state.currentLevel?.difficulty === Difficulty.BEGINNER || word.isSolved;
-                return (
-                  <div key={word.id} className="aspect-[4/5] sm:aspect-square">
-                    <WordCard
-                      word={word}
-                      category={shouldShowHint ? category : undefined}
-                      isSelected={state.selectedWordIds.includes(word.id)}
-                      isWrong={isWrongGroup && state.selectedWordIds.includes(word.id)}
-                      onClick={() => toggleWordSelection(word.id)}
-                    />
-                  </div>
-                );
-              })}
-            </div>
+            {(() => {
+              const rowCount = state.currentLevel?.categories.length || 4;
+              const gridRowsClass = rowCount === 6 ? 'grid-rows-6' : rowCount === 5 ? 'grid-rows-5' : 'grid-rows-4';
+              return (
+                <div className={`flex-grow grid grid-cols-4 ${gridRowsClass} gap-1 sm:gap-1.5 min-h-0`}>
+                  {state.currentLevel.words.map((word) => {
+                    const category = state.currentLevel?.categories.find(c => c.id === word.categoryId);
+                    const shouldShowHint = state.currentLevel?.difficulty === Difficulty.BEGINNER || word.isSolved;
+                    return (
+                      <div key={word.id} className="h-full w-full">
+                        <WordCard
+                          word={word}
+                          category={shouldShowHint ? category : undefined}
+                          isSelected={state.selectedWordIds.includes(word.id)}
+                          isWrong={isWrongGroup && state.selectedWordIds.includes(word.id)}
+                          onClick={() => toggleWordSelection(word.id)}
+                        />
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
 
             {/* Game Controls Footer */}
             <div className="bg-white/50 backdrop-blur-sm p-3 rounded-3xl border border-white/50 flex flex-col items-center gap-3 shrink-0 shadow-lg">
