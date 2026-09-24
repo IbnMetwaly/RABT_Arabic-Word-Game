@@ -15,8 +15,8 @@ export const AndroidInstallBanner: React.FC<AndroidInstallBannerProps> = () => {
         {/* Android Installation Instructions Modal */}
         {showAndroidGuide && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-in fade-in duration-200">
-            <div className="w-full max-w-md bg-white rounded-3xl p-6 shadow-2xl border-4 border-amber-200 text-right overflow-hidden relative">
-              <div className="flex items-center justify-between pb-3 border-b border-amber-100 mb-4">
+            <div className="w-full max-w-md bg-white rounded-3xl p-6 shadow-2xl border-4 border-sky-200 text-right overflow-hidden relative">
+              <div className="flex items-center justify-between pb-3 border-b border-sky-100 mb-4">
                 <div className="flex items-center gap-2.5">
                   <div className="w-10 h-10 rounded-2xl bg-emerald-100 flex items-center justify-center text-xl shadow-inner">
                     🤖
@@ -35,14 +35,14 @@ export const AndroidInstallBanner: React.FC<AndroidInstallBannerProps> = () => {
               </div>
 
               <div className="space-y-3.5 mb-5 text-xs sm:text-sm text-slate-700">
-                <div className="flex items-start gap-3 bg-amber-50 p-3 rounded-2xl border border-amber-200">
-                  <span className="w-6 h-6 rounded-full bg-amber-500 text-white font-black flex items-center justify-center shrink-0 text-xs shadow-sm">
+                <div className="flex items-start gap-3 bg-sky-50 p-3 rounded-2xl border border-sky-200">
+                  <span className="w-6 h-6 rounded-full bg-sky-600 text-white font-black flex items-center justify-center shrink-0 text-xs shadow-sm">
                     ١
                   </span>
                   <div>
                     <p className="font-bold text-slate-800">اضغط على زر القائمة في متصفحك</p>
                     <p className="text-[11px] text-slate-500 mt-0.5">
-                      انقر على رمز النقاط الثلاث <strong className="text-amber-700 font-black font-mono">⋮</strong> (أو زر المشاركة في أسفل/أعلى الشاشة).
+                      انقر على رمز النقاط الثلاث <strong className="text-sky-700 font-black font-mono">⋮</strong> (أو زر المشاركة في أسفل/أعلى الشاشة).
                     </p>
                   </div>
                 </div>
@@ -91,7 +91,7 @@ export const AndroidInstallBanner: React.FC<AndroidInstallBannerProps> = () => {
                     setShowAndroidGuide(false);
                     setShowApkGuide(true);
                   }}
-                  className="flex-1 py-2 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold text-xs transition-colors cursor-pointer"
+                  className="flex-1 py-2 rounded-xl bg-sky-100 hover:bg-sky-200 text-sky-900 font-bold text-xs transition-colors cursor-pointer"
                 >
                   📦 حزمة APK / متجر Play
                 </button>
@@ -109,10 +109,10 @@ export const AndroidInstallBanner: React.FC<AndroidInstallBannerProps> = () => {
         {/* APK / Google Play Export Guide Modal */}
         {showApkGuide && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4 animate-in fade-in duration-200">
-            <div className="w-full max-w-md bg-white rounded-3xl p-6 shadow-2xl border-4 border-amber-200 text-right relative">
-              <div className="flex items-center justify-between pb-3 border-b border-amber-100 mb-4">
+            <div className="w-full max-w-md bg-white rounded-3xl p-6 shadow-2xl border-4 border-sky-200 text-right relative">
+              <div className="flex items-center justify-between pb-3 border-b border-sky-100 mb-4">
                 <div className="flex items-center gap-2.5">
-                  <div className="w-10 h-10 rounded-2xl bg-amber-100 flex items-center justify-center text-xl shadow-inner">
+                  <div className="w-10 h-10 rounded-2xl bg-sky-100 flex items-center justify-center text-xl shadow-inner">
                     📦
                   </div>
                   <div>
@@ -129,8 +129,8 @@ export const AndroidInstallBanner: React.FC<AndroidInstallBannerProps> = () => {
               </div>
 
               <div className="text-xs sm:text-sm text-slate-700 space-y-3 mb-5 leading-relaxed">
-                <p className="bg-amber-50 p-3 rounded-2xl border border-amber-200 text-slate-800">
-                  تم تجهيز التطبيق بملف <strong className="text-amber-800">Web App Manifest</strong> وأيقونات أندرويد التكيفية (Adaptive Maskable Icons) وخدمة أوفلاين كاملة.
+                <p className="bg-sky-50 p-3 rounded-2xl border border-sky-200 text-slate-800">
+                  تم تجهيز التطبيق بملف <strong className="text-sky-800">Web App Manifest</strong> وأيقونات أندرويد التكيفية (Adaptive Maskable Icons) وخدمة أوفلاين كاملة.
                 </p>
 
                 <p className="font-bold text-slate-800">كيف تحوّله إلى ملف APK جاهز للتثبيت بضغطة زر؟</p>
@@ -149,7 +149,7 @@ export const AndroidInstallBanner: React.FC<AndroidInstallBannerProps> = () => {
 
               <button
                 onClick={() => setShowApkGuide(false)}
-                className="w-full py-2.5 rounded-2xl bg-amber-500 hover:bg-amber-600 text-white font-black text-sm shadow-md cursor-pointer transition-colors"
+                className="w-full py-2.5 rounded-2xl bg-sky-600 hover:bg-sky-500 text-white font-black text-sm shadow-md cursor-pointer transition-colors"
               >
                 فهمت ذلك، شكراً!
               </button>
@@ -164,9 +164,12 @@ export const AndroidInstallBanner: React.FC<AndroidInstallBannerProps> = () => {
     <>
       <div className="w-full bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-800 text-white rounded-3xl p-3.5 sm:p-4 shadow-lg border-2 border-emerald-400/40 flex items-center justify-between gap-3 text-right">
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-white/15 backdrop-blur-xs flex items-center justify-center text-2xl shrink-0 shadow-inner border border-white/20">
-            🤖
-          </div>
+          <img
+            src="/pwa-192x192.png"
+            alt="أيقونة رَوابِط"
+            className="w-12 h-12 rounded-2xl shadow-md shrink-0 border border-white/30 object-contain bg-white/10"
+            referrerPolicy="no-referrer"
+          />
           <div>
             <div className="flex items-center gap-1.5">
               <span className="font-black text-sm sm:text-base leading-tight">تطبيق أندرويد الرسمي</span>

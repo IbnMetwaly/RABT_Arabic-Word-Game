@@ -73,7 +73,7 @@ app.post("/api/level", async (req, res) => {
       const totalWords = categoryCount * 4;
 
       const prompt = `
-        Generate game data for an Arabic word sorting game called 'Rabt'.
+        Generate game data for an Arabic word sorting game called 'Rawabet' (رَوابِط).
         Stage: ${validDifficulty}.
         Level Index: ${validLevelNumber} of 10.
         Rules:
@@ -116,7 +116,7 @@ app.post("/api/level", async (req, res) => {
               id: String(c.id || Math.random().toString(36).substr(2, 5)),
               title: String(c.title || "مجموعة"),
               icon: String(c.icon || "✨"),
-              color: String(c.color || "#F59E0B"),
+              color: String(c.color || "#0284C7"),
               description: String(c.description || ""),
               wordFacts: Object.keys(wordFacts).length > 0 ? wordFacts : undefined
             };

@@ -22,13 +22,14 @@ const ARABIC_LETTERS = [
   'ي', 'هـ', 'ت', 'ج', 'د', 'ز', 'ش'
 ];
 
-// Warm palette matching the game's Amber, Gold, and Honey theme
-const AMBER_PALETTE = [
-  '245, 158, 11',  // Amber 500
-  '217, 119, 6',   // Amber 600
-  '180, 83, 9',    // Amber 700
-  '251, 191, 36',  // Amber 400
-  '146, 64, 14',   // Amber 800
+// Elegant ambient palette matching the game's logo: Royal Blue, Sky, Cyan, with Lime & Orange knot accents
+const LOGO_PALETTE = [
+  '2, 132, 199',   // Sky 600
+  '14, 165, 233',  // Sky 500
+  '56, 189, 248',  // Sky 400
+  '3, 105, 161',   // Sky 700
+  '132, 204, 22',  // Lime 500 (from logo knot)
+  '249, 115, 22',  // Orange 500 (from logo knot)
 ];
 
 export const ArabicParticleBackground: React.FC = () => {
@@ -96,13 +97,14 @@ export const ArabicParticleBackground: React.FC = () => {
     const particles: Particle[] = [];
 
     const createParticle = (initialY?: number): Particle => {
-      // Prioritize 'ر', 'ب', 'ط' with slightly higher frequency
-      const isSignatureLetter = Math.random() < 0.35;
+      // Prioritize letters of "رَوابِط" with slightly higher frequency
+      const isSignatureLetter = Math.random() < 0.4;
+      const signatureLetters = ['ر', 'و', 'ا', 'ب', 'ط'];
       const char = isSignatureLetter
-        ? ['ر', 'ب', 'ط'][Math.floor(Math.random() * 3)]
+        ? signatureLetters[Math.floor(Math.random() * signatureLetters.length)]
         : ARABIC_LETTERS[Math.floor(Math.random() * ARABIC_LETTERS.length)];
 
-      const color = AMBER_PALETTE[Math.floor(Math.random() * AMBER_PALETTE.length)];
+      const color = LOGO_PALETTE[Math.floor(Math.random() * LOGO_PALETTE.length)];
       
       // Extremely subtle opacity range (0.04 to 0.12) so it acts as an elegant watermark background
       const baseAlpha = 0.045 + Math.random() * 0.085;

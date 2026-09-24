@@ -276,12 +276,17 @@ const App: React.FC = () => {
 
   if (!state.user) {
     return (
-      <div className="h-[100dvh] flex flex-col items-center justify-center p-6 bg-amber-50 relative overflow-hidden">
+      <div className="h-[100dvh] flex flex-col items-center justify-center p-6 bg-gradient-to-b from-sky-50/60 via-slate-50 to-sky-100/40 relative overflow-hidden">
         <ArabicParticleBackground />
         <OfflineNotification />
-        <div className="bg-white/95 backdrop-blur-xs p-8 pt-7 rounded-[2rem] shadow-2xl max-w-sm w-full text-center border-b-[8px] border-amber-100 flex flex-col gap-6 relative z-10">
-          <div className="pt-1">
-            <h1 className="text-4xl sm:text-5xl font-black text-amber-600 drop-shadow-sm tracking-tight">رَوابِط</h1>
+        <div className="bg-white/95 backdrop-blur-xs p-8 pt-6 rounded-[2rem] shadow-2xl max-w-sm w-full text-center border-b-[8px] border-sky-100 flex flex-col gap-5 relative z-10">
+          <div className="flex flex-col items-center">
+            <img 
+              src="/logo.png" 
+              alt="شعار لعبة رَوابِط الرسمي" 
+              className="w-28 h-28 sm:w-32 sm:h-32 object-contain rounded-[1.75rem] shadow-xl border-2 border-sky-200/60 transition-transform hover:scale-105" 
+              referrerPolicy="no-referrer"
+            />
           </div>
           <form 
             onSubmit={(e) => {
@@ -296,7 +301,7 @@ const App: React.FC = () => {
               value={usernameInput}
               onChange={(e) => setUsernameInput(e.target.value)}
               autoFocus
-              className="w-full px-6 py-4 rounded-2xl border-2 border-amber-100 focus:border-amber-400 outline-none text-lg text-center bg-amber-50/30 transition-all placeholder:text-slate-300"
+              className="w-full px-6 py-4 rounded-2xl border-2 border-sky-100 focus:border-sky-500 outline-none text-lg text-center bg-sky-50/40 transition-all placeholder:text-slate-300"
             />
             <Button type="submit" fullWidth className="py-4 text-xl">ابدأ اللعب</Button>
           </form>
@@ -311,15 +316,21 @@ const App: React.FC = () => {
   const isCompleted = state.gameState === 'COMPLETED';
 
   return (
-    <div className="h-[100dvh] flex flex-col bg-amber-50/20 overflow-hidden safe-paddings relative">
+    <div className="h-[100dvh] flex flex-col bg-sky-50/25 overflow-hidden safe-paddings relative">
       <ArabicParticleBackground />
       <OfflineNotification />
-      <header className="bg-white/85 backdrop-blur-md shadow-sm z-20 px-4 py-3 sm:px-8 flex justify-between items-center border-b border-amber-100 flex-shrink-0 relative">
+      <header className="bg-white/90 backdrop-blur-md shadow-xs z-20 px-4 py-3 sm:px-8 flex justify-between items-center border-b border-sky-100 flex-shrink-0 relative">
         <div className="flex flex-col">
-          <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-black text-amber-500 leading-none">رَوابِط</h1>
+          <div className="flex items-center gap-2.5">
+            <img 
+              src="/pwa-192x192.png" 
+              alt="أيقونة رَوابِط" 
+              className="w-8 h-8 rounded-xl shadow-xs border border-sky-100 object-contain" 
+              referrerPolicy="no-referrer"
+            />
+            <h1 className="text-2xl font-black text-sky-600 leading-none">رَوابِط</h1>
             {state.currentLevel && (isPlaying || isCompleted) && (
-              <span className="text-[11px] bg-amber-100 text-amber-800 font-black px-2.5 py-0.5 rounded-full border border-amber-200">
+              <span className="text-[11px] bg-sky-50 text-sky-800 font-black px-2.5 py-0.5 rounded-full border border-sky-200">
                 {state.currentLevel.difficulty === Difficulty.BEGINNER ? 'الأشبال' : state.currentLevel.difficulty === Difficulty.INTERMEDIATE ? 'الفرسان' : 'العباقرة'} • لغز {state.currentLevelNumber} من ١٠
               </span>
             )}
@@ -327,7 +338,7 @@ const App: React.FC = () => {
           <button 
             type="button"
             onClick={handleGoToUsernameScreen}
-            className="text-[10px] text-slate-400 hover:text-amber-600 font-bold leading-none mt-1 text-right transition-colors cursor-pointer"
+            className="text-[10px] text-slate-400 hover:text-sky-600 font-bold leading-none mt-1 text-right transition-colors cursor-pointer"
             title="انقر لتغيير اسم المستخدم"
           >
             المستخدم: {state.user.username}
@@ -336,15 +347,15 @@ const App: React.FC = () => {
         
         <div className="flex items-center gap-2">
           {isPlaying && (
-            <div className="bg-amber-100/50 px-3 py-1.5 rounded-xl flex items-center gap-2 border border-amber-200 shadow-inner">
-              <span className="text-base font-black text-amber-700 font-mono">{formatTime(state.timer)}</span>
+            <div className="bg-sky-50 px-3 py-1.5 rounded-xl flex items-center gap-2 border border-sky-200/80 shadow-inner">
+              <span className="text-base font-black text-sky-700 font-mono">{formatTime(state.timer)}</span>
             </div>
           )}
           
           <button
             type="button"
             onClick={toggleMute}
-            className={`p-2 rounded-xl transition-colors ${state.isMuted ? 'text-slate-400 bg-slate-100' : 'text-amber-500 bg-amber-50 hover:bg-amber-100'}`}
+            className={`p-2 rounded-xl transition-colors ${state.isMuted ? 'text-slate-400 bg-slate-100' : 'text-sky-600 bg-sky-50 hover:bg-sky-100'}`}
             title={state.isMuted ? "تشغيل الصوت" : "كتم الصوت"}
           >
              {state.isMuted ? (
@@ -362,7 +373,7 @@ const App: React.FC = () => {
           {isLobby ? (
             <button 
               type="button"
-              className="p-2 rounded-xl text-amber-600 bg-amber-50 hover:bg-amber-100 hover:text-amber-700 transition-colors shadow-sm"
+              className="p-2 rounded-xl text-sky-600 bg-sky-50 hover:bg-sky-100 hover:text-sky-700 transition-colors shadow-sm"
               onClick={handleGoToUsernameScreen}
               title="الصفحة الرئيسية (تسجيل الدخول / تغيير اسم المستخدم)"
               aria-label="الصفحة الرئيسية"
@@ -374,7 +385,7 @@ const App: React.FC = () => {
           ) : (
             <button 
               type="button"
-              className="p-2 rounded-xl text-slate-400 hover:text-amber-500 hover:bg-amber-50 transition-colors"
+              className="p-2 rounded-xl text-slate-400 hover:text-sky-600 hover:bg-sky-50 transition-colors"
               onClick={() => setState(prev => ({ ...prev, gameState: 'LOBBY', currentLevel: null }))}
               title="العودة لاختيار التحدي"
               aria-label="العودة للقائمة"
@@ -391,10 +402,10 @@ const App: React.FC = () => {
         {isLobby && (
           <div className="flex-grow flex flex-col p-4 gap-4 overflow-y-auto no-scrollbar">
             <div 
-              className="bg-white p-4 rounded-3xl shadow-sm border border-amber-100 cursor-pointer transition-all active:scale-98"
+              className="bg-white p-4 rounded-3xl shadow-sm border border-sky-100 cursor-pointer transition-all active:scale-98"
               onClick={() => setIsGuideOpen(!isGuideOpen)}
             >
-              <div className="flex items-center justify-between text-amber-600">
+              <div className="flex items-center justify-between text-sky-600">
                 <div className="flex items-center gap-3">
                   <span className="text-2xl">📖</span>
                   <h3 className="font-black text-base">دليل اللعب السريع</h3>
@@ -413,8 +424,8 @@ const App: React.FC = () => {
                     { n: '٢', t: 'يتكون كل لغز من ٤ مجموعات متجانسة.' },
                     { n: '٣', t: 'يحتوي كل مستوى على ١٠ ألغاز متدرجة.' }
                   ].map(item => (
-                    <div key={item.n} className="flex gap-3 items-center text-sm text-slate-600 bg-amber-50/50 p-2.5 rounded-xl border border-amber-100/50">
-                      <span className="w-6 h-6 rounded-full bg-amber-200 text-amber-800 flex items-center justify-center font-black text-xs shrink-0">{item.n}</span>
+                    <div key={item.n} className="flex gap-3 items-center text-sm text-slate-600 bg-sky-50/40 p-2.5 rounded-xl border border-sky-100/60">
+                      <span className="w-6 h-6 rounded-full bg-sky-100 text-sky-800 flex items-center justify-center font-black text-xs shrink-0">{item.n}</span>
                       <p className="font-medium">{item.t}</p>
                     </div>
                   ))}
@@ -425,7 +436,7 @@ const App: React.FC = () => {
             <div className="space-y-4 pb-8">
               <div className="flex items-center justify-between px-1">
                 <h2 className="text-xl font-black text-slate-800">اختر المستوى</h2>
-                <span className="text-xs font-bold text-amber-700 bg-amber-100/80 px-2.5 py-1 rounded-full border border-amber-200">
+                <span className="text-xs font-bold text-sky-700 bg-sky-100/80 px-2.5 py-1 rounded-full border border-sky-200">
                   ١٠ ألغاز متتالية
                 </span>
               </div>
@@ -444,18 +455,18 @@ const App: React.FC = () => {
                     INTERMEDIATE: {
                       title: 'مستوى الفرسان',
                       desc: 'تفكير منطقي • روابط ذكية وتنوع دلالي',
-                      icon: '🔥',
+                      icon: '⚡',
                       tag: 'متوسط',
-                      tagClass: 'bg-amber-50 text-amber-700 border-amber-200',
-                      hoverBorder: 'hover:border-amber-300'
+                      tagClass: 'bg-sky-50 text-sky-700 border-sky-200',
+                      hoverBorder: 'hover:border-sky-300'
                     },
                     EXPERT: {
                       title: 'مستوى العباقرة',
                       desc: 'بلاغة وعمق • روائع الأدب ولغة الضاد',
                       icon: '👑',
                       tag: 'متقدم',
-                      tagClass: 'bg-purple-50 text-purple-700 border-purple-200',
-                      hoverBorder: 'hover:border-purple-300'
+                      tagClass: 'bg-orange-50 text-orange-700 border-orange-200',
+                      hoverBorder: 'hover:border-orange-300'
                     }
                   }[difficultyEnum];
 
@@ -464,15 +475,15 @@ const App: React.FC = () => {
                       key={diff}
                       type="button"
                       onClick={() => startLevel(difficultyEnum, 1)}
-                      className={`w-full bg-white p-5 rounded-[2rem] shadow-sm border border-amber-100/90 ${levelDetails.hoverBorder} hover:shadow-md active:scale-[0.99] transition-all flex items-center justify-between group cursor-pointer text-right`}
+                      className={`w-full bg-white p-5 rounded-[2rem] shadow-sm border border-sky-100/90 ${levelDetails.hoverBorder} hover:shadow-md active:scale-[0.99] transition-all flex items-center justify-between group cursor-pointer text-right`}
                     >
                       <div className="flex items-center gap-4">
-                        <div className="w-14 h-14 bg-amber-50/90 group-hover:bg-amber-100/90 rounded-2xl flex items-center justify-center text-3xl border border-amber-100 shrink-0 transition-colors shadow-xs">
+                        <div className="w-14 h-14 bg-sky-50/90 group-hover:bg-sky-100/90 rounded-2xl flex items-center justify-center text-3xl border border-sky-100 shrink-0 transition-colors shadow-xs">
                           {levelDetails.icon}
                         </div>
                         <div>
                           <div className="flex items-center gap-2 mb-1">
-                            <h3 className="text-lg font-black text-slate-800 group-hover:text-amber-600 transition-colors">
+                            <h3 className="text-lg font-black text-slate-800 group-hover:text-sky-600 transition-colors">
                               {levelDetails.title}
                             </h3>
                             <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${levelDetails.tagClass}`}>
@@ -486,10 +497,10 @@ const App: React.FC = () => {
                       </div>
 
                       <div className="flex items-center gap-2 pr-2 shrink-0">
-                        <span className="hidden sm:inline text-xs font-black text-amber-600 group-hover:-translate-x-1 transition-transform">
+                        <span className="hidden sm:inline text-xs font-black text-sky-600 group-hover:-translate-x-1 transition-transform">
                           ابدأ المستوى
                         </span>
-                        <div className="w-10 h-10 rounded-2xl bg-amber-50 group-hover:bg-amber-500 text-amber-700 group-hover:text-white flex items-center justify-center font-black transition-all shadow-xs text-base">
+                        <div className="w-10 h-10 rounded-2xl bg-sky-50 group-hover:bg-sky-600 text-sky-700 group-hover:text-white flex items-center justify-center font-black transition-all shadow-xs text-base">
                           ←
                         </div>
                       </div>
@@ -504,10 +515,10 @@ const App: React.FC = () => {
         {isLoading && (
           <div className="flex-grow flex flex-col items-center justify-center p-8 text-center">
             <div className="relative w-24 h-24 mb-8">
-              <div className="absolute inset-0 border-8 border-amber-100 rounded-full"></div>
-              <div className="absolute inset-0 border-8 border-amber-500 rounded-full border-t-transparent animate-spin"></div>
+              <div className="absolute inset-0 border-8 border-sky-100 rounded-full"></div>
+              <div className="absolute inset-0 border-8 border-sky-600 rounded-full border-t-transparent animate-spin"></div>
             </div>
-            <h2 className="text-2xl font-black text-amber-600 animate-pulse mb-2">جاري التفكير...</h2>
+            <h2 className="text-2xl font-black text-sky-600 animate-pulse mb-2">جاري التفكير...</h2>
             <p className="text-slate-400 font-bold max-w-[200px]">الذكاء الاصطناعي يصيغ لك لغزاً فريداً الآن</p>
           </div>
         )}
@@ -610,7 +621,7 @@ const App: React.FC = () => {
                   <span className="w-2 h-2 rounded-full bg-rose-400"></span>
                   الأخطاء: {state.mistakeCount}
                 </div>
-                <div className="text-[11px] font-black text-amber-700">
+                <div className="text-[11px] font-black text-sky-700">
                    اخترت {state.selectedWordIds.length} من ٤
                 </div>
               </div>
@@ -626,7 +637,7 @@ const App: React.FC = () => {
                 <button 
                   onClick={() => setState(prev => ({...prev, selectedWordIds: []}))}
                   disabled={state.selectedWordIds.length === 0}
-                  className="flex-1 bg-amber-50 text-amber-700 py-3 rounded-2xl font-black text-xs border-b-2 border-amber-200 active:translate-y-0.5 active:border-b-0 transition-all disabled:opacity-30"
+                  className="flex-1 bg-sky-50 text-sky-700 py-3 rounded-2xl font-black text-xs border-b-2 border-sky-200 active:translate-y-0.5 active:border-b-0 transition-all disabled:opacity-30"
                 >
                   إلغاء التحديد
                 </button>
@@ -638,15 +649,15 @@ const App: React.FC = () => {
         {isCompleted && (
           <div className="flex-grow flex flex-col p-6 items-center justify-center text-center">
             <Confetti />
-            <div className="bg-white p-8 rounded-[3rem] shadow-2xl border-b-[12px] border-amber-100 w-full animate-success-reveal relative z-10">
+            <div className="bg-white p-8 rounded-[3rem] shadow-2xl border-b-[12px] border-sky-100 w-full animate-success-reveal relative z-10">
               <div className="text-7xl mb-4">🏆</div>
-              <h2 className="text-4xl font-black text-amber-600 mb-2">رائع جداً!</h2>
+              <h2 className="text-4xl font-black text-sky-600 mb-2">رائع جداً!</h2>
               <p className="text-slate-500 font-bold mb-8 italic">"خير الكلام ما قلّ ودلّ"</p>
               
               <div className="grid grid-cols-2 gap-4 mb-6">
-                <div className="bg-amber-50 p-4 rounded-3xl border border-amber-100">
-                  <div className="text-[10px] text-amber-600 font-black mb-1">الزمن المستغرق</div>
-                  <div className="text-2xl font-black text-amber-900 font-mono">{formatTime(state.timer)}</div>
+                <div className="bg-sky-50 p-4 rounded-3xl border border-sky-100">
+                  <div className="text-[10px] text-sky-600 font-black mb-1">الزمن المستغرق</div>
+                  <div className="text-2xl font-black text-sky-900 font-mono">{formatTime(state.timer)}</div>
                 </div>
                 <div className="bg-rose-50 p-4 rounded-3xl border border-rose-100">
                   <div className="text-[10px] text-rose-600 font-black mb-1">المحاولات</div>
@@ -687,7 +698,7 @@ const App: React.FC = () => {
                 {getNextLevel(state.currentLevel!.difficulty, state.currentLevelNumber) ? (
                   <Button 
                     fullWidth 
-                    className="py-4 font-black bg-gradient-to-l from-amber-600 via-amber-500 to-amber-600 hover:from-amber-700 hover:to-amber-600 text-white shadow-xl border-b-4 border-amber-800"
+                    className="py-4 font-black bg-gradient-to-l from-sky-700 via-sky-600 to-sky-700 hover:from-sky-800 hover:to-sky-700 text-white shadow-xl border-b-4 border-sky-900"
                     style={{ color: '#ffffff' }}
                     onClick={() => {
                       const next = getNextLevel(state.currentLevel!.difficulty, state.currentLevelNumber);
@@ -712,7 +723,7 @@ const App: React.FC = () => {
                 )}
                 <button 
                   onClick={shareResult}
-                  className="text-amber-600 hover:text-amber-500 font-black text-sm hover:underline py-2 cursor-pointer"
+                  className="text-sky-600 hover:text-sky-500 font-black text-sm hover:underline py-2 cursor-pointer"
                 >
                   تحدّ أصدقاءك بالنتيجة
                 </button>
@@ -732,7 +743,7 @@ const App: React.FC = () => {
       )}
 
       {isLobby && (
-        <footer className="p-4 text-center border-t border-amber-100/50 flex-shrink-0">
+        <footer className="p-4 text-center border-t border-sky-100/50 flex-shrink-0">
           <p className="text-[10px] text-slate-400 font-bold tracking-tight">
             رَوابِط © ٢٠٢٤ • صُنِع بشغف للغة الضاد
           </p>

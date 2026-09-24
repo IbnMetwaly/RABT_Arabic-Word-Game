@@ -42,7 +42,7 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
           transition={{ type: "spring", stiffness: 350, damping: 28 }}
-          className="relative w-full max-w-lg bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-amber-100 flex flex-col my-auto max-h-[90vh]"
+          className="relative w-full max-w-lg bg-white rounded-[2rem] shadow-2xl overflow-hidden border border-sky-100 flex flex-col my-auto max-h-[90vh]"
           onClick={(e) => e.stopPropagation()}
           dir="rtl"
         >
@@ -79,12 +79,12 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
           </div>
 
           {/* Subheader hint */}
-          <div className="bg-amber-50/70 px-5 py-2.5 border-b border-amber-100 flex items-center justify-between text-xs text-amber-900 font-bold">
+          <div className="bg-sky-50/70 px-5 py-2.5 border-b border-sky-100 flex items-center justify-between text-xs text-sky-950 font-bold">
             <span className="flex items-center gap-1.5">
               <span>💡</span>
               <span>معاني وفوائد كلمات هذه المجموعة:</span>
             </span>
-            <span className="text-[11px] text-amber-700/80 bg-white px-2 py-0.5 rounded-lg border border-amber-100">
+            <span className="text-[11px] text-sky-700/80 bg-white px-2 py-0.5 rounded-lg border border-sky-100">
               {wordList.length} كلمات
             </span>
           </div>
@@ -96,7 +96,7 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
               return (
                 <div 
                   key={idx} 
-                  className={`pt-3.5 first:pt-0 flex flex-col gap-2 rounded-2xl p-3 sm:p-3.5 transition-colors bg-slate-50/70 hover:bg-amber-50/40 border border-slate-100/80`}
+                  className={`pt-3.5 first:pt-0 flex flex-col gap-2 rounded-2xl p-3 sm:p-3.5 transition-colors bg-slate-50/70 hover:bg-sky-50/40 border border-slate-100/80`}
                 >
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
@@ -121,10 +121,10 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
 
                   {/* Interesting Fact */}
                   {detail.fact && (
-                    <div className="text-xs text-amber-950 bg-amber-100/40 border border-amber-200/50 rounded-xl p-2.5 leading-relaxed flex items-start gap-2">
-                      <span className="text-amber-600 text-sm shrink-0 select-none">✨</span>
+                    <div className="text-xs text-orange-950 bg-orange-50/70 border border-orange-200/60 rounded-xl p-2.5 leading-relaxed flex items-start gap-2">
+                      <span className="text-orange-500 text-sm shrink-0 select-none">✨</span>
                       <div>
-                        <span className="font-bold text-amber-800 ml-1">معلومة شيقة:</span>
+                        <span className="font-bold text-orange-800 ml-1">معلومة شيقة:</span>
                         <span className="font-normal text-slate-700">{detail.fact}</span>
                       </div>
                     </div>
@@ -138,7 +138,7 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
           <div className="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-end">
             <button
               onClick={onClose}
-              className="w-full sm:w-auto px-6 py-2.5 bg-amber-500 hover:bg-amber-600 active:scale-98 text-white font-black text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+              className="w-full sm:w-auto px-6 py-2.5 bg-sky-600 hover:bg-sky-500 active:scale-98 text-white font-black text-sm rounded-xl transition-all shadow-sm flex items-center justify-center gap-2 cursor-pointer"
             >
               <span>متابعة اللعب</span>
               <svg className="w-4 h-4 rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor">

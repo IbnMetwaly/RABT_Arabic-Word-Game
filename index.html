@@ -4,7 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
-    <meta name="theme-color" content="#F59E0B" />
+    <meta name="theme-color" content="#0284C7" />
     <meta name="application-name" content="رَوابِط" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -26,7 +26,7 @@
       }
       body {
         font-family: 'Tajawal', sans-serif;
-        background-color: #FFFBEB;
+        background-color: #F0F9FF;
         overflow: hidden;
         user-select: none;
         -webkit-tap-highlight-color: transparent;
@@ -36,13 +36,13 @@
         width: 100%;
       }
 
-      /* High-contrast styling for selected word cards across all display & dark modes */
+      /* High-contrast styling for selected word cards matching the Sky Blue logo branding */
       .word-card-selected,
       button[data-selected="true"] {
-        background-color: #FBBF24 !important;
-        border-color: #D97706 !important;
-        color: #000000 !important;
-        -webkit-text-fill-color: #000000 !important;
+        background-color: #0284C7 !important;
+        border-color: #0369A1 !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
         forced-color-adjust: none !important;
         color-scheme: only light !important;
       }
@@ -56,8 +56,8 @@
       .word-card-selected-text,
       button[data-selected="true"] .word-card-selected-text,
       button[data-selected="true"] span {
-        color: #000000 !important;
-        -webkit-text-fill-color: #000000 !important;
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
         forced-color-adjust: none !important;
         color-scheme: only light !important;
         font-weight: 900 !important;
@@ -137,7 +137,7 @@
         if ('caches' in window) {
           caches.keys().then(function(keys) {
             for (var k of keys) {
-              if (k !== 'rabt-pwa-v10') {
+              if (k !== 'rabt-pwa-v11') {
                 caches.delete(k);
               }
             }

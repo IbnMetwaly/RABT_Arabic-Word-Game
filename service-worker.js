@@ -1,8 +1,9 @@
-const CACHE_NAME = 'rabt-pwa-v10';
+const CACHE_NAME = 'rabt-pwa-v11';
 const STATIC_ASSETS = [
   '/',
   '/manifest.json',
   '/icon.svg',
+  '/logo.png',
   '/pwa-192x192.png',
   '/pwa-512x512.png',
   '/pwa-maskable-512x512.png',

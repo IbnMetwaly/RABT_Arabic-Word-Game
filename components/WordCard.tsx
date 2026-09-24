@@ -24,9 +24,9 @@ export const WordCard: React.FC<WordCardProps> = ({ word, category, isSelected, 
       return "bg-emerald-500 border-emerald-700 text-white shadow-xl animate-solve-pop glossy-3d z-20 ring-4 ring-emerald-300";
     }
     if (isSelected) {
-      return "bg-amber-400 border-amber-600 text-black shadow-xl glossy-3d z-10 ring-4 ring-amber-300/80 word-card-selected";
+      return "bg-sky-600 border-sky-800 text-white shadow-xl glossy-3d z-10 ring-4 ring-sky-300/80 word-card-selected";
     }
-    return "bg-white border-amber-100 text-slate-700 hover:border-amber-300 hover:shadow-md cursor-pointer glossy-3d";
+    return "bg-white border-sky-100 text-slate-700 hover:border-sky-300 hover:shadow-md cursor-pointer glossy-3d";
   };
 
   const solvedStyle = word.isSolved && category ? {
@@ -45,10 +45,10 @@ export const WordCard: React.FC<WordCardProps> = ({ word, category, isSelected, 
       style={{
         ...solvedStyle,
         ...(isSelected ? {
-          backgroundColor: '#FBBF24',
-          borderColor: '#D97706',
-          color: '#000000',
-          WebkitTextFillColor: '#000000',
+          backgroundColor: '#0284C7',
+          borderColor: '#0369A1',
+          color: '#ffffff',
+          WebkitTextFillColor: '#ffffff',
           forcedColorAdjust: 'none',
           colorScheme: 'only light'
         } : {})
@@ -98,7 +98,7 @@ export const WordCard: React.FC<WordCardProps> = ({ word, category, isSelected, 
             exit={{ scale: 0, opacity: 0 }}
             transition={{ type: "spring", stiffness: 600, damping: 25 }}
             style={{ forcedColorAdjust: 'none', colorScheme: 'only light' }}
-            className="absolute top-1.5 right-1.5 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-slate-950 text-amber-300 rounded-full flex items-center justify-center shadow-sm pointer-events-none text-[8px] sm:text-[9px] font-black leading-none"
+            className="absolute top-1.5 right-1.5 w-3.5 h-3.5 sm:w-4 sm:h-4 bg-sky-950 text-cyan-200 rounded-full flex items-center justify-center shadow-sm pointer-events-none text-[8px] sm:text-[9px] font-black leading-none"
           >
             ✓
           </motion.div>
@@ -107,8 +107,8 @@ export const WordCard: React.FC<WordCardProps> = ({ word, category, isSelected, 
       
       <span 
         style={isSelected ? {
-          color: '#000000',
-          WebkitTextFillColor: '#000000',
+          color: '#ffffff',
+          WebkitTextFillColor: '#ffffff',
           forcedColorAdjust: 'none',
           colorScheme: 'only light'
         } : undefined}
@@ -120,7 +120,7 @@ export const WordCard: React.FC<WordCardProps> = ({ word, category, isSelected, 
           w-full
           px-1
           text-xs sm:text-sm md:text-base
-          ${isSelected ? 'text-black word-card-selected-text' : ''}
+          ${isSelected ? 'text-white word-card-selected-text' : ''}
           ${word.isSolved ? 'scale-90 opacity-70' : ''}
         `}
       >
