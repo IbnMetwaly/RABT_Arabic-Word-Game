@@ -1,4 +1,3 @@
-
 import React from 'react';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -11,20 +10,22 @@ export const Button: React.FC<ButtonProps> = ({
   variant = 'primary', 
   fullWidth = false, 
   className = '', 
+  style,
   ...props 
 }) => {
-  const baseStyles = "px-6 py-3 rounded-2xl font-bold transition-all active:scale-95 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed";
+  const baseStyles = "px-6 py-3.5 rounded-2xl font-black transition-all active:scale-[0.98] shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer select-none";
   
   const variants = {
-    primary: "bg-amber-400 text-amber-900 hover:bg-amber-300",
-    secondary: "bg-sky-400 text-sky-900 hover:bg-sky-300",
-    success: "bg-emerald-500 text-white hover:bg-emerald-400",
-    danger: "bg-rose-500 text-white hover:bg-rose-400"
+    primary: "bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white border-b-4 border-amber-800 shadow-amber-900/20",
+    secondary: "bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white border-b-4 border-sky-800 shadow-sky-900/20",
+    success: "bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white border-b-4 border-emerald-800 shadow-emerald-900/20",
+    danger: "bg-rose-600 hover:bg-rose-500 active:bg-rose-700 text-white border-b-4 border-rose-800 shadow-rose-900/20"
   };
 
   return (
     <button 
       className={`${baseStyles} ${variants[variant]} ${fullWidth ? 'w-full' : ''} ${className}`}
+      style={{ color: '#ffffff', ...style }}
       {...props}
     >
       {children}

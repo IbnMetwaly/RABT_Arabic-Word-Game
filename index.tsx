@@ -1,4 +1,5 @@
 
+import '@vitejs/plugin-react/preamble';
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
@@ -16,5 +17,8 @@ root.render(
   </React.StrictMode>
 );
 
-// Register the service worker to enable PWA capabilities
-serviceWorkerRegistration.register();
+// Register service worker for Android PWA installability and offline support
+serviceWorkerRegistration.register({
+  onSuccess: () => console.log('Rabt is ready for offline play!'),
+  onUpdate: () => console.log('New content available, refresh to update.')
+});

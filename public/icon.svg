@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="50%" stop-color="#D97706"/>
+      <stop offset="100%" stop-color="#B45309"/>
+    </linearGradient>
+    <linearGradient id="tileGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFFBEB"/>
+      <stop offset="100%" stop-color="#FEF3C7"/>
+    </linearGradient>
+    <filter id="dropShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#000000" flood-opacity="0.3"/>
+    </filter>
+    <filter id="tileShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="6" flood-color="#78350F" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Base background (for maskable icon safe zone, fills entire canvas) -->
+  <rect width="512" height="512" fill="#1C1917" rx="100"/>
+
+  <!-- Main Squircle App Icon Badge -->
+  <g filter="url(#dropShadow)">
+    <rect x="36" y="36" width="440" height="440" rx="92" fill="url(#bgGrad)" stroke="#FDE68A" stroke-width="4" stroke-opacity="0.4"/>
+  </g>
+
+  <!-- Connected puzzle nodes representing "رَبْط" -->
+  <g opacity="0.35" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-dasharray="10 12">
+    <line x1="120" y1="130" x2="256" y2="130" />
+    <line x1="256" y1="130" x2="392" y2="130" />
+    <line x1="120" y1="130" x2="120" y2="240" />
+    <line x1="392" y1="130" x2="392" y2="240" />
+  </g>
+
+  <!-- Connective Node Dots -->
+  <circle cx="120" cy="130" r="10" fill="#FEF3C7" opacity="0.8"/>
+  <circle cx="256" cy="130" r="12" fill="#FEF3C7"/>
+  <circle cx="392" cy="130" r="10" fill="#FEF3C7" opacity="0.8"/>
+
+  <!-- Central Word Card / Tile representing the puzzle tiles -->
+  <g filter="url(#tileShadow)">
+    <rect x="86" y="170" width="340" height="230" rx="42" fill="url(#tileGrad)" stroke="#F59E0B" stroke-width="5"/>
+  </g>
+
+  <!-- Arabic Typography "رَبْط" -->
+  <text 
+    x="256" 
+    y="315" 
+    font-family="'Tajawal', 'Segoe UI', Arial, sans-serif" 
+    font-size="118" 
+    font-weight="900" 
+    fill="#92400E" 
+    text-anchor="middle"
+    letter-spacing="2"
+  >رَبْط</text>
+
+  <!-- Sparkle / Star in top-right corner -->
+  <path d="M380 180 L386 198 L404 204 L386 210 L380 228 L374 210 L356 204 L374 198 Z" fill="#FDE68A"/>
+  <circle cx="130" cy="360" r="6" fill="#F59E0B"/>
+  <circle cx="380" cy="360" r="6" fill="#F59E0B"/>
+</svg>

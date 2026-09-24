@@ -5,10 +5,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
     <meta name="theme-color" content="#F59E0B" />
+    <meta name="application-name" content="رَبْط" />
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="رَبْط" />
+    <meta name="color-scheme" content="light" />
     <title>رَبْط | Rabt - Arabic Word Game</title>
-    <link rel="manifest" href="manifest.json" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +34,33 @@
         margin: 0;
         position: fixed;
         width: 100%;
+      }
+
+      /* High-contrast styling for selected word cards across all display & dark modes */
+      .word-card-selected,
+      button[data-selected="true"] {
+        background-color: #FBBF24 !important;
+        border-color: #D97706 !important;
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+        forced-color-adjust: none !important;
+        color-scheme: only light !important;
+      }
+
+      .word-card-selected *,
+      button[data-selected="true"] * {
+        forced-color-adjust: none !important;
+        color-scheme: only light !important;
+      }
+
+      .word-card-selected-text,
+      button[data-selected="true"] .word-card-selected-text,
+      button[data-selected="true"] span {
+        color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+        forced-color-adjust: none !important;
+        color-scheme: only light !important;
+        font-weight: 900 !important;
       }
       
       .safe-paddings {
@@ -85,17 +119,37 @@
         -ms-overflow-style: none;
         scrollbar-width: none;
       }
+
+      /* Android & Native App Enhancements */
+      html, body {
+        overscroll-behavior-y: contain;
+        touch-action: manipulation;
+        -webkit-touch-callout: none;
+      }
     </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3"
-  }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
+    <script>
+      window.$RefreshReg$ = window.$RefreshReg$ || (() => {});
+      window.$RefreshSig$ = window.$RefreshSig$ || (() => (type) => type);
+      window.__vite_plugin_react_preamble_installed__ = true;
+
+      // Purge old cached assets so user always sees latest updated UI
+      if (typeof window !== 'undefined') {
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            for (var k of keys) {
+              if (k !== 'rabt-pwa-v7') {
+                caches.delete(k);
+              }
+            }
+          });
+        }
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.addEventListener('controllerchange', function() {
+            window.location.reload();
+          });
+        }
+      }
+    </script>
 </head>
   <body>
     <div id="root"></div>

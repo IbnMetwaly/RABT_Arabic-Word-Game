@@ -1,10 +1,15 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Difficulty, GameLevel, AppState, Word, Category } from './types';
 import { generateLevel } from './geminiService';
+import { getFallbackLevel } from './fallbackLevels';
 import { WordCard } from './components/WordCard';
 import { Button } from './components/Button';
 import { Confetti } from './components/Confetti';
+import { CategoryModal } from './components/CategoryModal';
+import { OfflineNotification } from './components/OfflineNotification';
+import { ArabicParticleBackground } from './components/ArabicParticleBackground';
 import { audioService } from './audioService';
 
 const App: React.FC = () => {
@@ -19,10 +24,13 @@ const App: React.FC = () => {
     activeHint: null,
     hintUsedCount: 0,
     isMuted: false,
+    activeCategoryModal: null,
   });
 
   const [isWrongGroup, setIsWrongGroup] = useState(false);
+  const [isSuccessGroup, setIsSuccessGroup] = useState(false);
   const [isGuideOpen, setIsGuideOpen] = useState(false);
+  const [usernameInput, setUsernameInput] = useState('');
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   // Initialize Audio and User
@@ -67,7 +75,60 @@ const App: React.FC = () => {
     setState(prev => ({ ...prev, user: newUser }));
   };
 
+  const handleGoToUsernameScreen = () => {
+    setUsernameInput(state.user?.username || '');
+    localStorage.removeItem('rabt_user');
+    if (timerRef.current) clearInterval(timerRef.current);
+    setState(prev => ({
+      ...prev,
+      user: null,
+      gameState: 'LOBBY',
+      currentLevel: null,
+      selectedWordIds: [],
+      activeHint: null,
+      hintUsedCount: 0,
+      activeCategoryModal: null
+    }));
+  };
+
+  const triggerHaptic = (type: 'tap' | 'error' | 'success' | 'win') => {
+    if (typeof window !== 'undefined' && 'vibrate' in navigator) {
+      try {
+        if (type === 'tap') navigator.vibrate(14);
+        else if (type === 'error') navigator.vibrate([40, 50, 40]);
+        else if (type === 'success') navigator.vibrate([30, 40, 30]);
+        else if (type === 'win') navigator.vibrate([50, 60, 50, 60, 120]);
+      } catch {
+        // Vibration not supported on this platform
+      }
+    }
+  };
+
+  // Support Android hardware back button / swipe gesture to return to Lobby
+  useEffect(() => {
+    const handlePopState = () => {
+      if (state.gameState !== 'LOBBY') {
+        if (timerRef.current) clearInterval(timerRef.current);
+        setState(prev => ({
+          ...prev,
+          gameState: 'LOBBY',
+          currentLevel: null,
+          selectedWordIds: [],
+          activeHint: null,
+          hintUsedCount: 0,
+          activeCategoryModal: null,
+        }));
+      }
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [state.gameState]);
+
   const startLevel = useCallback(async (diff: Difficulty, levelNum: number) => {
+    if (typeof window !== 'undefined') {
+      window.history.pushState({ inGame: true }, '');
+    }
     setState(prev => ({ 
       ...prev, 
       gameState: 'LOADING', 
@@ -76,10 +137,14 @@ const App: React.FC = () => {
       selectedWordIds: [],
       currentLevelNumber: levelNum,
       activeHint: null,
-      hintUsedCount: 0
+      hintUsedCount: 0,
+      activeCategoryModal: null
     }));
     try {
       const levelData = await generateLevel(diff, levelNum);
+      if (!levelData || !Array.isArray(levelData.categories) || levelData.categories.length === 0) {
+        throw new Error("Invalid level data received");
+      }
       setState(prev => ({ ...prev, gameState: 'PLAYING', currentLevel: levelData }));
       
       if (timerRef.current) clearInterval(timerRef.current);
@@ -87,13 +152,18 @@ const App: React.FC = () => {
         setState(prev => ({ ...prev, timer: prev.timer + 1 }));
       }, 1000);
     } catch (error) {
-      console.error("Failed to load level", error);
-      setState(prev => ({ ...prev, gameState: 'LOBBY' }));
+      console.warn("Could not load dynamic level, smoothly falling back to authentic curated puzzle:", error);
+      const fallbackData = getFallbackLevel(diff, levelNum);
+      setState(prev => ({ ...prev, gameState: 'PLAYING', currentLevel: fallbackData }));
+      if (timerRef.current) clearInterval(timerRef.current);
+      timerRef.current = setInterval(() => {
+        setState(prev => ({ ...prev, timer: prev.timer + 1 }));
+      }, 1000);
     }
   }, []);
 
   const getNextLevel = (currentDiff: Difficulty, currentNum: number) => {
-    if (currentNum < 3) return { diff: currentDiff, num: currentNum + 1 };
+    if (currentNum < 10) return { diff: currentDiff, num: currentNum + 1 };
     
     if (currentDiff === Difficulty.BEGINNER) return { diff: Difficulty.INTERMEDIATE, num: 1 };
     if (currentDiff === Difficulty.INTERMEDIATE) return { diff: Difficulty.EXPERT, num: 1 };
@@ -116,6 +186,7 @@ const App: React.FC = () => {
         hintUsedCount: prev.hintUsedCount + 1
       }));
       audioService.play('pop');
+      triggerHaptic('tap');
       
       setTimeout(() => {
         setState(prev => ({ ...prev, activeHint: null }));
@@ -124,6 +195,7 @@ const App: React.FC = () => {
   };
 
   const toggleWordSelection = (wordId: string) => {
+    triggerHaptic('tap');
     if (state.selectedWordIds.includes(wordId)) {
       audioService.play('pop');
       setState(prev => ({ ...prev, selectedWordIds: prev.selectedWordIds.filter(id => id !== wordId) }));
@@ -143,7 +215,10 @@ const App: React.FC = () => {
 
       if (isMatch) {
         audioService.play('correct');
+        triggerHaptic('success');
+        setIsSuccessGroup(true);
         setTimeout(() => {
+          setIsSuccessGroup(false);
           setState(prev => {
             const newWords = prev.currentLevel!.words.map(w => 
               state.selectedWordIds.includes(w.id) ? { ...w, isSolved: true } : w
@@ -160,9 +235,10 @@ const App: React.FC = () => {
               gameState: allSolved ? 'COMPLETED' : 'PLAYING'
             };
           });
-        }, 300);
+        }, 450);
       } else {
         audioService.play('wrong');
+        triggerHaptic('error');
         setIsWrongGroup(true);
         setState(prev => ({ ...prev, mistakeCount: prev.mistakeCount + 1 }));
         setTimeout(() => {
@@ -176,15 +252,9 @@ const App: React.FC = () => {
   useEffect(() => {
     if (state.gameState === 'COMPLETED' && state.currentLevel) {
       audioService.play('win');
-      const next = getNextLevel(state.currentLevel.difficulty, state.currentLevelNumber);
-      if (next) {
-        const timer = setTimeout(() => {
-          startLevel(next.diff, next.num);
-        }, 5000);
-        return () => clearTimeout(timer);
-      }
+      triggerHaptic('win');
     }
-  }, [state.gameState, state.currentLevel, state.currentLevelNumber, startLevel]);
+  }, [state.gameState, state.currentLevel]);
 
   const formatTime = (seconds: number) => {
     const m = Math.floor(seconds / 60);
@@ -193,7 +263,7 @@ const App: React.FC = () => {
   };
 
   const shareResult = async () => {
-    const text = `أنهيت المستوى ${state.currentLevelNumber} في لعبة رَبْط خلال ${formatTime(state.timer)}! جربها الآن.`;
+    const text = `أنهيت اللغز ${state.currentLevelNumber} من ١٠ في لعبة رَبْط خلال ${formatTime(state.timer)}! جربها الآن.`;
     if (navigator.share) {
       try {
         await navigator.share({ title: 'رَبْط', text: text, url: window.location.href });
@@ -206,26 +276,34 @@ const App: React.FC = () => {
 
   if (!state.user) {
     return (
-      <div className="h-[100dvh] flex items-center justify-center p-6 bg-amber-50">
-        <div className="bg-white p-8 rounded-[2rem] shadow-2xl max-w-sm w-full text-center border-b-[8px] border-amber-100 flex flex-col gap-6">
+      <div className="h-[100dvh] flex flex-col items-center justify-center p-6 bg-amber-50 relative overflow-hidden">
+        <ArabicParticleBackground />
+        <OfflineNotification />
+        <div className="bg-white/95 backdrop-blur-xs p-8 rounded-[2rem] shadow-2xl max-w-sm w-full text-center border-b-[8px] border-amber-100 flex flex-col gap-6 relative z-10">
           <div>
-            <h1 className="text-6xl font-black text-amber-500 mb-2 drop-shadow-sm">رَبْط</h1>
-            <p className="text-slate-400 text-sm font-bold">لعبة ترتيب الكلمات العربية</p>
+            <div className="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-gradient-to-tr from-amber-500 to-amber-400 text-white text-3xl font-black mb-3 shadow-md">
+              رَبْط
+            </div>
+            <h1 className="text-4xl font-black text-amber-600 mb-1 drop-shadow-sm">رَبْط</h1>
+            <p className="text-slate-400 text-xs sm:text-sm font-bold">لعبة ترتيب الكلمات العربية</p>
           </div>
-          <div className="space-y-4">
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleLogin(usernameInput);
+            }}
+            className="space-y-4"
+          >
             <input 
               type="text" 
               placeholder="اسم المستخدم"
+              value={usernameInput}
+              onChange={(e) => setUsernameInput(e.target.value)}
+              autoFocus
               className="w-full px-6 py-4 rounded-2xl border-2 border-amber-100 focus:border-amber-400 outline-none text-lg text-center bg-amber-50/30 transition-all placeholder:text-slate-300"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleLogin((e.target as HTMLInputElement).value);
-              }}
             />
-            <Button fullWidth className="py-4 text-xl" onClick={(e) => {
-              const input = (e.currentTarget.previousSibling as HTMLInputElement);
-              handleLogin(input.value);
-            }}>ابدأ اللعب</Button>
-          </div>
+            <Button type="submit" fullWidth className="py-4 text-xl">ابدأ اللعب</Button>
+          </form>
         </div>
       </div>
     );
@@ -237,14 +315,27 @@ const App: React.FC = () => {
   const isCompleted = state.gameState === 'COMPLETED';
 
   return (
-    <div className="h-[100dvh] flex flex-col bg-amber-50/20 overflow-hidden safe-paddings">
-      <header className="bg-white/80 backdrop-blur-md shadow-sm z-50 px-4 py-3 sm:px-8 flex justify-between items-center border-b border-amber-100 flex-shrink-0">
+    <div className="h-[100dvh] flex flex-col bg-amber-50/20 overflow-hidden safe-paddings relative">
+      <ArabicParticleBackground />
+      <OfflineNotification />
+      <header className="bg-white/85 backdrop-blur-md shadow-sm z-20 px-4 py-3 sm:px-8 flex justify-between items-center border-b border-amber-100 flex-shrink-0 relative">
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
             <h1 className="text-2xl font-black text-amber-500 leading-none">رَبْط</h1>
-            <span className="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full font-bold">بـيـتا</span>
+            {state.currentLevel && (isPlaying || isCompleted) && (
+              <span className="text-[11px] bg-amber-100 text-amber-800 font-black px-2.5 py-0.5 rounded-full border border-amber-200">
+                {state.currentLevel.difficulty === Difficulty.BEGINNER ? 'الأشبال' : state.currentLevel.difficulty === Difficulty.INTERMEDIATE ? 'الفرسان' : 'العباقرة'} • لغز {state.currentLevelNumber} من ١٠
+              </span>
+            )}
           </div>
-          <span className="text-[10px] text-slate-400 font-bold leading-none mt-1">المستخدم: {state.user.username}</span>
+          <button 
+            type="button"
+            onClick={handleGoToUsernameScreen}
+            className="text-[10px] text-slate-400 hover:text-amber-600 font-bold leading-none mt-1 text-right transition-colors cursor-pointer"
+            title="انقر لتغيير اسم المستخدم"
+          >
+            المستخدم: {state.user.username}
+          </button>
         </div>
         
         <div className="flex items-center gap-2">
@@ -255,8 +346,9 @@ const App: React.FC = () => {
           )}
           
           <button
+            type="button"
             onClick={toggleMute}
-            className={`p-2 rounded-xl transition-colors ${state.isMuted ? 'text-slate-400 bg-slate-100' : 'text-amber-500 bg-amber-50'}`}
+            className={`p-2 rounded-xl transition-colors ${state.isMuted ? 'text-slate-400 bg-slate-100' : 'text-amber-500 bg-amber-50 hover:bg-amber-100'}`}
             title={state.isMuted ? "تشغيل الصوت" : "كتم الصوت"}
           >
              {state.isMuted ? (
@@ -271,10 +363,25 @@ const App: React.FC = () => {
              )}
           </button>
 
-          {!isLobby && (
+          {isLobby ? (
             <button 
-              className="p-2 text-slate-400 hover:text-amber-500 transition-colors"
+              type="button"
+              className="p-2 rounded-xl text-amber-600 bg-amber-50 hover:bg-amber-100 hover:text-amber-700 transition-colors shadow-sm"
+              onClick={handleGoToUsernameScreen}
+              title="الصفحة الرئيسية (تسجيل الدخول / تغيير اسم المستخدم)"
+              aria-label="الصفحة الرئيسية"
+            >
+              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+            </button>
+          ) : (
+            <button 
+              type="button"
+              className="p-2 rounded-xl text-slate-400 hover:text-amber-500 hover:bg-amber-50 transition-colors"
               onClick={() => setState(prev => ({ ...prev, gameState: 'LOBBY', currentLevel: null }))}
+              title="العودة لاختيار التحدي"
+              aria-label="العودة للقائمة"
             >
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -284,7 +391,7 @@ const App: React.FC = () => {
         </div>
       </header>
 
-      <main className="flex-grow w-full max-w-2xl mx-auto flex flex-col overflow-hidden relative">
+      <main className="flex-grow w-full max-w-2xl mx-auto flex flex-col overflow-hidden relative z-10">
         {isLobby && (
           <div className="flex-grow flex flex-col p-4 gap-4 overflow-y-auto no-scrollbar">
             <div 
@@ -306,9 +413,9 @@ const App: React.FC = () => {
               <div className={`grid transition-all duration-300 ${isGuideOpen ? 'grid-rows-[1fr] mt-4 opacity-100' : 'grid-rows-[0fr] opacity-0'}`}>
                 <div className="overflow-hidden space-y-3">
                   {[
-                    { n: '١', t: 'اربط ٤ كلمات يجمعها معنى واحد.' },
-                    { n: '٢', t: 'هناك ٤ إلى ٦ مجموعات في كل لغز.' },
-                    { n: '٣', t: 'كل مستوى يزيد من غموض الروابط.' }
+                    { n: '١', t: 'اربط ٤ كلمات يجمعها رابط دلالي أو لغوي واحد.' },
+                    { n: '٢', t: 'يتكون كل لغز من ٤ مجموعات متجانسة.' },
+                    { n: '٣', t: 'يحتوي كل مستوى على ١٠ ألغاز متدرجة.' }
                   ].map(item => (
                     <div key={item.n} className="flex gap-3 items-center text-sm text-slate-600 bg-amber-50/50 p-2.5 rounded-xl border border-amber-100/50">
                       <span className="w-6 h-6 rounded-full bg-amber-200 text-amber-800 flex items-center justify-center font-black text-xs shrink-0">{item.n}</span>
@@ -320,37 +427,79 @@ const App: React.FC = () => {
             </div>
 
             <div className="space-y-4 pb-8">
-              <h2 className="text-xl font-black text-slate-800 text-right px-1">اختر التحدي</h2>
+              <div className="flex items-center justify-between px-1">
+                <h2 className="text-xl font-black text-slate-800">اختر المستوى</h2>
+                <span className="text-xs font-bold text-amber-700 bg-amber-100/80 px-2.5 py-1 rounded-full border border-amber-200">
+                  ١٠ ألغاز متتالية
+                </span>
+              </div>
               <div className="grid grid-cols-1 gap-4">
-                {(Object.keys(Difficulty) as Array<keyof typeof Difficulty>).map(diff => (
-                  <div key={diff} className="bg-white p-5 rounded-[2rem] shadow-sm border border-amber-100 flex flex-col gap-4">
-                    <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-2xl border border-amber-100">
-                        {diff === 'BEGINNER' ? '🌱' : diff === 'INTERMEDIATE' ? '🔥' : '👑'}
+                {(Object.keys(Difficulty) as Array<keyof typeof Difficulty>).map(diff => {
+                  const difficultyEnum = Difficulty[diff];
+                  const levelDetails = {
+                    BEGINNER: {
+                      title: 'مستوى الأشبال',
+                      desc: 'سهل وواضح • مفردات يومية مألوفة',
+                      icon: '🌱',
+                      tag: 'سهل',
+                      tagClass: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                      hoverBorder: 'hover:border-emerald-300'
+                    },
+                    INTERMEDIATE: {
+                      title: 'مستوى الفرسان',
+                      desc: 'تفكير منطقي • روابط ذكية وتنوع دلالي',
+                      icon: '🔥',
+                      tag: 'متوسط',
+                      tagClass: 'bg-amber-50 text-amber-700 border-amber-200',
+                      hoverBorder: 'hover:border-amber-300'
+                    },
+                    EXPERT: {
+                      title: 'مستوى العباقرة',
+                      desc: 'بلاغة وعمق • روائع الأدب ولغة الضاد',
+                      icon: '👑',
+                      tag: 'متقدم',
+                      tagClass: 'bg-purple-50 text-purple-700 border-purple-200',
+                      hoverBorder: 'hover:border-purple-300'
+                    }
+                  }[difficultyEnum];
+
+                  return (
+                    <button
+                      key={diff}
+                      type="button"
+                      onClick={() => startLevel(difficultyEnum, 1)}
+                      className={`w-full bg-white p-5 rounded-[2rem] shadow-sm border border-amber-100/90 ${levelDetails.hoverBorder} hover:shadow-md active:scale-[0.99] transition-all flex items-center justify-between group cursor-pointer text-right`}
+                    >
+                      <div className="flex items-center gap-4">
+                        <div className="w-14 h-14 bg-amber-50/90 group-hover:bg-amber-100/90 rounded-2xl flex items-center justify-center text-3xl border border-amber-100 shrink-0 transition-colors shadow-xs">
+                          {levelDetails.icon}
+                        </div>
+                        <div>
+                          <div className="flex items-center gap-2 mb-1">
+                            <h3 className="text-lg font-black text-slate-800 group-hover:text-amber-600 transition-colors">
+                              {levelDetails.title}
+                            </h3>
+                            <span className={`text-[10px] font-black px-2 py-0.5 rounded-full border ${levelDetails.tagClass}`}>
+                              {levelDetails.tag}
+                            </span>
+                          </div>
+                          <p className="text-xs text-slate-500 font-bold">
+                            {levelDetails.desc}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-lg font-black text-slate-800">
-                          {diff === 'BEGINNER' ? 'مستوى الأشبال' : diff === 'INTERMEDIATE' ? 'مستوى الفرسان' : 'مستوى العباقرة'}
-                        </h3>
-                        <p className="text-xs text-slate-400 font-bold">
-                          {diff === 'BEGINNER' ? 'سهل وواضح' : diff === 'INTERMEDIATE' ? 'تفكير منطقي' : 'بلاغة وعمق'}
-                        </p>
+
+                      <div className="flex items-center gap-2 pr-2 shrink-0">
+                        <span className="hidden sm:inline text-xs font-black text-amber-600 group-hover:-translate-x-1 transition-transform">
+                          ابدأ المستوى
+                        </span>
+                        <div className="w-10 h-10 rounded-2xl bg-amber-50 group-hover:bg-amber-500 text-amber-700 group-hover:text-white flex items-center justify-center font-black transition-all shadow-xs text-base">
+                          ←
+                        </div>
                       </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-3 gap-3">
-                      {[1, 2, 3].map(num => (
-                        <button
-                          key={num}
-                          onClick={() => startLevel(Difficulty[diff], num)}
-                          className="bg-amber-50 hover:bg-amber-400 hover:text-white text-amber-700 font-black py-3 rounded-2xl border-b-4 border-amber-200 active:translate-y-1 active:border-b-0 transition-all text-sm"
-                        >
-                          لغز {num}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                ))}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           </div>
@@ -369,22 +518,40 @@ const App: React.FC = () => {
 
         {isPlaying && state.currentLevel && (
           <div className="flex-grow flex flex-col p-3 sm:p-4 gap-3 overflow-hidden">
-            {/* Solved Categories (Horizontal Scroll if many) */}
-            <div className="flex gap-2 overflow-x-auto no-scrollbar pb-1 shrink-0">
-              {state.currentLevel.categories.map(cat => {
-                const isSolved = state.currentLevel?.words.filter(w => w.categoryId === cat.id).every(w => w.isSolved);
-                if (!isSolved) return null;
-                return (
-                  <div 
-                    key={cat.id} 
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-white shadow-sm border-b-2 shrink-0 animate-success-reveal"
-                    style={{ backgroundColor: cat.color, borderBottomColor: 'rgba(0,0,0,0.2)' }}
-                  >
-                    <span className="text-base">{cat.icon}</span>
-                    <span className="text-[10px] font-black whitespace-nowrap">{cat.title}</span>
-                  </div>
-                );
-              })}
+            {/* Solved Categories Banners */}
+            <div className="flex flex-col gap-1 sm:gap-1.5 shrink-0 max-h-[35%] overflow-y-auto no-scrollbar">
+              <AnimatePresence>
+                {state.currentLevel.categories.map(cat => {
+                  const catWords = state.currentLevel?.words.filter(w => w.categoryId === cat.id);
+                  const isSolved = catWords?.every(w => w.isSolved);
+                  if (!isSolved) return null;
+                  return (
+                    <motion.div 
+                      key={cat.id} 
+                      layout
+                      initial={{ opacity: 0, y: -12, scale: 0.96 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ type: "spring", stiffness: 350, damping: 26 }}
+                      onClick={() => setState(prev => ({ ...prev, activeCategoryModal: cat }))}
+                      className="flex items-center justify-between px-3 py-1.5 rounded-xl text-white shadow-sm border-b-2 shrink-0 select-none cursor-pointer transition-all hover:brightness-105 active:scale-[0.99] group"
+                      style={{ backgroundColor: cat.color, borderBottomColor: 'rgba(0,0,0,0.25)' }}
+                      title="انقر لعرض معاني وفوائد كلمات هذه المجموعة"
+                    >
+                      <div className="flex items-center gap-2 shrink-0">
+                        <span className="text-base sm:text-lg">{cat.icon}</span>
+                        <span className="text-xs sm:text-sm font-black whitespace-nowrap">{cat.title}</span>
+                        <span className="text-[10px] bg-white/20 group-hover:bg-white/30 text-white font-bold px-1.5 py-0.5 rounded-md flex items-center gap-0.5 border border-white/25 transition-colors">
+                          <span>💡</span>
+                          <span className="hidden sm:inline">معلومات</span>
+                        </span>
+                      </div>
+                      <span className="text-[10px] sm:text-xs text-white/90 font-bold truncate max-w-[50%] sm:max-w-[58%] text-left">
+                        {catWords?.map(w => w.text).join(' • ')}
+                      </span>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
             </div>
 
             {/* Hint Box */}
@@ -396,25 +563,46 @@ const App: React.FC = () => {
 
             {/* Main Word Grid */}
             {(() => {
-              const rowCount = state.currentLevel?.categories.length || 4;
-              const gridRowsClass = rowCount === 6 ? 'grid-rows-6' : rowCount === 5 ? 'grid-rows-5' : 'grid-rows-4';
+              const unsolvedWords = state.currentLevel.words.filter(w => !w.isSolved);
+
               return (
-                <div className={`flex-grow grid grid-cols-4 ${gridRowsClass} gap-1 sm:gap-1.5 min-h-0`}>
-                  {state.currentLevel.words.map((word) => {
-                    const category = state.currentLevel?.categories.find(c => c.id === word.categoryId);
-                    const shouldShowHint = state.currentLevel?.difficulty === Difficulty.BEGINNER || word.isSolved;
-                    return (
-                      <div key={word.id} className="h-full w-full">
-                        <WordCard
-                          word={word}
-                          category={shouldShowHint ? category : undefined}
-                          isSelected={state.selectedWordIds.includes(word.id)}
-                          isWrong={isWrongGroup && state.selectedWordIds.includes(word.id)}
-                          onClick={() => toggleWordSelection(word.id)}
-                        />
-                      </div>
-                    );
-                  })}
+                <div className="flex-grow flex flex-col justify-center min-h-0 py-1 overflow-y-auto no-scrollbar">
+                  <motion.div 
+                    layout
+                    transition={{ layout: { type: "spring", stiffness: 320, damping: 28 } }}
+                    className="grid grid-cols-4 gap-2 sm:gap-2.5 md:gap-3 w-full my-auto max-w-lg mx-auto"
+                  >
+                    <AnimatePresence mode="popLayout">
+                      {unsolvedWords.map((word) => {
+                        const category = state.currentLevel?.categories.find(c => c.id === word.categoryId);
+                        const shouldShowHint = state.currentLevel?.difficulty === Difficulty.BEGINNER;
+                        return (
+                          <motion.div 
+                            key={word.id}
+                            layout
+                            layoutId={word.id}
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.5, transition: { duration: 0.22 } }}
+                            transition={{
+                              layout: { type: "spring", stiffness: 340, damping: 28, mass: 0.8 },
+                              opacity: { duration: 0.2 }
+                            }}
+                            className="w-full flex"
+                          >
+                            <WordCard
+                              word={word}
+                              category={shouldShowHint ? category : undefined}
+                              isSelected={state.selectedWordIds.includes(word.id)}
+                              isWrong={isWrongGroup && state.selectedWordIds.includes(word.id)}
+                              isSuccess={isSuccessGroup && state.selectedWordIds.includes(word.id)}
+                              onClick={() => toggleWordSelection(word.id)}
+                            />
+                          </motion.div>
+                        );
+                      })}
+                    </AnimatePresence>
+                  </motion.div>
                 </div>
               );
             })()}
@@ -459,7 +647,7 @@ const App: React.FC = () => {
               <h2 className="text-4xl font-black text-amber-600 mb-2">رائع جداً!</h2>
               <p className="text-slate-500 font-bold mb-8 italic">"خير الكلام ما قلّ ودلّ"</p>
               
-              <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-2 gap-4 mb-6">
                 <div className="bg-amber-50 p-4 rounded-3xl border border-amber-100">
                   <div className="text-[10px] text-amber-600 font-black mb-1">الزمن المستغرق</div>
                   <div className="text-2xl font-black text-amber-900 font-mono">{formatTime(state.timer)}</div>
@@ -470,22 +658,65 @@ const App: React.FC = () => {
                 </div>
               </div>
 
+              {/* Review Solved Categories with Details */}
+              {state.currentLevel && (
+                <div className="mb-6 text-right w-full">
+                  <p className="text-xs text-slate-500 font-bold mb-2 flex items-center gap-1.5 justify-start">
+                    <span>💡</span>
+                    <span>انقر على أي مجموعة لقراءة معانيها وفوائدها:</span>
+                  </p>
+                  <div className="flex flex-col gap-1.5 max-h-40 overflow-y-auto no-scrollbar">
+                    {state.currentLevel.categories.map(cat => (
+                      <button
+                        key={cat.id}
+                        type="button"
+                        onClick={() => setState(prev => ({ ...prev, activeCategoryModal: cat }))}
+                        className="flex items-center justify-between px-3.5 py-2 rounded-xl text-white shadow-xs border-b-2 transition-all hover:brightness-105 active:scale-[0.99] text-right cursor-pointer"
+                        style={{ backgroundColor: cat.color, borderBottomColor: 'rgba(0,0,0,0.25)' }}
+                      >
+                        <div className="flex items-center gap-2">
+                          <span className="text-base">{cat.icon}</span>
+                          <span className="text-xs sm:text-sm font-black">{cat.title}</span>
+                        </div>
+                        <span className="text-[10px] bg-white/20 hover:bg-white/30 px-2 py-0.5 rounded-full font-bold">
+                          استكشف الفوائد ✨
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               <div className="space-y-3">
                 {getNextLevel(state.currentLevel!.difficulty, state.currentLevelNumber) ? (
-                  <Button fullWidth className="py-4 text-lg" onClick={() => {
-                    const next = getNextLevel(state.currentLevel!.difficulty, state.currentLevelNumber);
-                    if (next) startLevel(next.diff, next.num);
-                  }}>
-                    اللغز التالي
+                  <Button 
+                    fullWidth 
+                    className="py-4 font-black bg-gradient-to-l from-amber-600 via-amber-500 to-amber-600 hover:from-amber-700 hover:to-amber-600 text-white shadow-xl border-b-4 border-amber-800"
+                    style={{ color: '#ffffff' }}
+                    onClick={() => {
+                      const next = getNextLevel(state.currentLevel!.difficulty, state.currentLevelNumber);
+                      if (next) startLevel(next.diff, next.num);
+                    }}
+                  >
+                    <span className="text-white font-black text-lg sm:text-xl tracking-wide flex items-center justify-center gap-2 drop-shadow-sm" style={{ color: '#ffffff' }}>
+                      <span>
+                        {state.currentLevelNumber < 10 
+                          ? `الانتقال إلى اللغز التالي (${state.currentLevelNumber + 1} من ١٠)` 
+                          : 'الانتقال إلى المستوى التالي'}
+                      </span>
+                      <span className="text-lg font-bold bg-white/20 w-7 h-7 rounded-lg flex items-center justify-center">
+                        ←
+                      </span>
+                    </span>
                   </Button>
                 ) : (
                   <Button variant="success" fullWidth className="py-4 text-lg" onClick={() => setState(prev => ({...prev, gameState: 'LOBBY'}))}>
-                    تمت اللعبة! عودة للقائمة
+                    🎉 أحسنت صنعاً! أنهيت جميع ألغاز اللعبة
                   </Button>
                 )}
                 <button 
                   onClick={shareResult}
-                  className="text-amber-600 font-black text-sm hover:underline py-2"
+                  className="text-amber-600 hover:text-amber-500 font-black text-sm hover:underline py-2 cursor-pointer"
                 >
                   تحدّ أصدقاءك بالنتيجة
                 </button>
@@ -494,6 +725,15 @@ const App: React.FC = () => {
           </div>
         )}
       </main>
+
+      {/* Category Facts & Definitions Modal */}
+      {state.activeCategoryModal && (
+        <CategoryModal
+          category={state.activeCategoryModal}
+          words={state.currentLevel?.words}
+          onClose={() => setState(prev => ({ ...prev, activeCategoryModal: null }))}
+        />
+      )}
 
       {isLobby && (
         <footer className="p-4 text-center border-t border-amber-100/50 flex-shrink-0">

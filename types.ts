@@ -12,12 +12,18 @@ export interface Word {
   isSolved: boolean;
 }
 
+export interface WordFactItem {
+  definition: string;
+  fact: string;
+}
+
 export interface Category {
   id: string;
   title: string;
   icon: string;
   color: string;
   description: string;
+  wordFacts?: Record<string, WordFactItem>;
 }
 
 export interface GameLevel {
@@ -45,4 +51,5 @@ export interface AppState {
   activeHint?: string | null;
   hintUsedCount: number;
   isMuted: boolean;
+  activeCategoryModal: Category | null;
 }

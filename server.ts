@@ -33,6 +33,19 @@ const levelSchema = {
             items: { type: Type.STRING },
             minItems: 4,
             maxItems: 4
+          },
+          wordFacts: {
+            type: Type.ARRAY,
+            description: "Concise definitions or interesting facts for the 4 words in this category",
+            items: {
+              type: Type.OBJECT,
+              properties: {
+                word: { type: Type.STRING },
+                definition: { type: Type.STRING, description: "A short 1-sentence definition of the word in Arabic" },
+                fact: { type: Type.STRING, description: "An interesting linguistic, historical, or scientific fact in Arabic" }
+              },
+              required: ["word", "definition", "fact"]
+            }
           }
         },
         required: ["id", "title", "icon", "color", "description", "words"]
@@ -48,28 +61,21 @@ const levelSchema = {
 app.post("/api/level", async (req, res) => {
   const { difficulty = Difficulty.BEGINNER, levelNumber = 1 } = req.body;
   const validDifficulty = (Object.values(Difficulty).includes(difficulty) ? difficulty : Difficulty.BEGINNER) as Difficulty;
-  const validLevelNumber = typeof levelNumber === "number" && levelNumber >= 1 && levelNumber <= 3 ? levelNumber : 1;
+  const validLevelNumber = typeof levelNumber === "number" && levelNumber >= 1 && levelNumber <= 10 ? levelNumber : 1;
 
   const apiKey = process.env.GEMINI_API_KEY || process.env.API_KEY;
 
   if (apiKey) {
     try {
-      const ai = new GoogleGenAI({
-        apiKey,
-        httpOptions: {
-          headers: {
-            "User-Agent": "aistudio-build"
-          }
-        }
-      });
+      const ai = new GoogleGenAI({ apiKey });
 
-      const categoryCount = validLevelNumber + 3;
+      const categoryCount = 4;
       const totalWords = categoryCount * 4;
 
       const prompt = `
         Generate game data for an Arabic word sorting game called 'Rabt'.
         Stage: ${validDifficulty}.
-        Level Index: ${validLevelNumber} of 3.
+        Level Index: ${validLevelNumber} of 10.
         Rules:
         - Create ${categoryCount} unique categories of 4 words each (Total ${totalWords} words).
         - Logic should follow Modern Standard Arabic (MSA).
@@ -93,13 +99,28 @@ app.post("/api/level", async (req, res) => {
       if (text) {
         const rawData = JSON.parse(text);
         if (rawData?.categories && Array.isArray(rawData.categories) && rawData.categories.length > 0) {
-          const categories: Category[] = rawData.categories.map((c: any) => ({
-            id: String(c.id || Math.random().toString(36).substr(2, 5)),
-            title: String(c.title || "مجموعة"),
-            icon: String(c.icon || "✨"),
-            color: String(c.color || "#F59E0B"),
-            description: String(c.description || "")
-          }));
+          const categories: Category[] = rawData.categories.map((c: any) => {
+            const wordFacts: Record<string, { definition: string; fact: string }> = {};
+            if (Array.isArray(c.wordFacts)) {
+              c.wordFacts.forEach((wf: any) => {
+                if (wf?.word && wf?.definition) {
+                  wordFacts[String(wf.word).trim()] = {
+                    definition: String(wf.definition),
+                    fact: String(wf.fact || "")
+                  };
+                }
+              });
+            }
+
+            return {
+              id: String(c.id || Math.random().toString(36).substr(2, 5)),
+              title: String(c.title || "مجموعة"),
+              icon: String(c.icon || "✨"),
+              color: String(c.color || "#F59E0B"),
+              description: String(c.description || ""),
+              wordFacts: Object.keys(wordFacts).length > 0 ? wordFacts : undefined
+            };
+          });
 
           const words: Word[] = rawData.categories.flatMap((c: any) =>
             (c.words || []).map((w: string, idx: number) => ({
@@ -136,6 +157,19 @@ app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
+app.use(express.static(path.join(process.cwd(), "public")));
+
+app.get("/manifest.json", (_req, res) => {
+  res.setHeader("Content-Type", "application/manifest+json; charset=utf-8");
+  res.sendFile(path.join(process.cwd(), "public", "manifest.json"));
+});
+
+app.get(["/sw.js", "/service-worker.js"], (_req, res) => {
+  res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+  res.setHeader("Content-Type", "application/javascript");
+  res.sendFile(path.join(process.cwd(), "public", "sw.js"));
+});
+
 async function startServer() {
   if (process.env.NODE_ENV !== "production") {
     const { createServer: createViteServer } = await import("vite");
@@ -146,8 +180,15 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
+    app.use(express.static(distPath, {
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith("index.html")) {
+          res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        }
+      }
+    }));
     app.get("*all", (_req, res) => {
+      res.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
       res.sendFile(path.join(distPath, "index.html"));
     });
   }
