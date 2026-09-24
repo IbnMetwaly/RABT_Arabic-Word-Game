@@ -25,7 +25,7 @@
     <rect x="36" y="36" width="440" height="440" rx="92" fill="url(#bgGrad)" stroke="#FDE68A" stroke-width="4" stroke-opacity="0.4"/>
   </g>
 
-  <!-- Connected puzzle nodes representing "رَبْط" -->
+  <!-- Connected puzzle nodes representing "رَوابِط" -->
   <g opacity="0.35" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" stroke-dasharray="10 12">
     <line x1="120" y1="130" x2="256" y2="130" />
     <line x1="256" y1="130" x2="392" y2="130" />
@@ -43,17 +43,17 @@
     <rect x="86" y="170" width="340" height="230" rx="42" fill="url(#tileGrad)" stroke="#F59E0B" stroke-width="5"/>
   </g>
 
-  <!-- Arabic Typography "رَبْط" -->
+  <!-- Arabic Typography "رَوابِط" -->
   <text 
     x="256" 
-    y="315" 
+    y="312" 
     font-family="'Tajawal', 'Segoe UI', Arial, sans-serif" 
-    font-size="118" 
+    font-size="94" 
     font-weight="900" 
     fill="#92400E" 
     text-anchor="middle"
-    letter-spacing="2"
-  >رَبْط</text>
+    letter-spacing="1"
+  >رَوابِط</text>
 
   <!-- Sparkle / Star in top-right corner -->
   <path d="M380 180 L386 198 L404 204 L386 210 L380 228 L374 210 L356 204 L374 198 Z" fill="#FDE68A"/>

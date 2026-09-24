@@ -66,7 +66,7 @@ export const AndroidInstallBanner: React.FC<AndroidInstallBannerProps> = () => {
                   <div>
                     <p className="font-bold text-slate-800">استمتع بتطبيق مستقل وممتع</p>
                     <p className="text-[11px] text-slate-500 mt-0.5">
-                      ستظهر أيقونة «رَبْط» في قائمة تطبيقات هاتفك، وتعمل دون شريط عنوان وبدعم اللعب دون اتصال بالإنترنت!
+                      ستظهر أيقونة «رَوابِط» في قائمة تطبيقات هاتفك، وتعمل دون شريط عنوان وبدعم اللعب دون اتصال بالإنترنت!
                     </p>
                   </div>
                 </div>
@@ -175,7 +175,7 @@ export const AndroidInstallBanner: React.FC<AndroidInstallBannerProps> = () => {
               </span>
             </div>
             <p className="text-[11px] sm:text-xs text-emerald-100/90 font-bold mt-0.5">
-              ثبّت لعبة «رَبْط» على هاتفك للعب دون إنترنت وبكامل الشاشة
+              ثبّت لعبة «رَوابِط» على هاتفك للعب دون إنترنت وبكامل الشاشة
             </p>
           </div>
         </div>

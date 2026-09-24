@@ -263,10 +263,10 @@ const App: React.FC = () => {
   };
 
   const shareResult = async () => {
-    const text = `أنهيت اللغز ${state.currentLevelNumber} من ١٠ في لعبة رَبْط خلال ${formatTime(state.timer)}! جربها الآن.`;
+    const text = `أنهيت اللغز ${state.currentLevelNumber} من ١٠ في لعبة رَوابِط خلال ${formatTime(state.timer)}! جربها الآن.`;
     if (navigator.share) {
       try {
-        await navigator.share({ title: 'رَبْط', text: text, url: window.location.href });
+        await navigator.share({ title: 'رَوابِط', text: text, url: window.location.href });
       } catch (e) { console.error(e); }
     } else {
       navigator.clipboard.writeText(text);
@@ -281,10 +281,10 @@ const App: React.FC = () => {
         <OfflineNotification />
         <div className="bg-white/95 backdrop-blur-xs p-8 rounded-[2rem] shadow-2xl max-w-sm w-full text-center border-b-[8px] border-amber-100 flex flex-col gap-6 relative z-10">
           <div>
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-3xl bg-gradient-to-tr from-amber-500 to-amber-400 text-white text-3xl font-black mb-3 shadow-md">
-              رَبْط
+            <div className="inline-flex items-center justify-center px-4 py-2 rounded-3xl bg-gradient-to-tr from-amber-500 to-amber-400 text-white text-2xl font-black mb-3 shadow-md">
+              رَوابِط
             </div>
-            <h1 className="text-4xl font-black text-amber-600 mb-1 drop-shadow-sm">رَبْط</h1>
+            <h1 className="text-4xl font-black text-amber-600 mb-1 drop-shadow-sm">رَوابِط</h1>
             <p className="text-slate-400 text-xs sm:text-sm font-bold">لعبة ترتيب الكلمات العربية</p>
           </div>
           <form 
@@ -321,7 +321,7 @@ const App: React.FC = () => {
       <header className="bg-white/85 backdrop-blur-md shadow-sm z-20 px-4 py-3 sm:px-8 flex justify-between items-center border-b border-amber-100 flex-shrink-0 relative">
         <div className="flex flex-col">
           <div className="flex items-center gap-2">
-            <h1 className="text-2xl font-black text-amber-500 leading-none">رَبْط</h1>
+            <h1 className="text-2xl font-black text-amber-500 leading-none">رَوابِط</h1>
             {state.currentLevel && (isPlaying || isCompleted) && (
               <span className="text-[11px] bg-amber-100 text-amber-800 font-black px-2.5 py-0.5 rounded-full border border-amber-200">
                 {state.currentLevel.difficulty === Difficulty.BEGINNER ? 'الأشبال' : state.currentLevel.difficulty === Difficulty.INTERMEDIATE ? 'الفرسان' : 'العباقرة'} • لغز {state.currentLevelNumber} من ١٠
@@ -738,7 +738,7 @@ const App: React.FC = () => {
       {isLobby && (
         <footer className="p-4 text-center border-t border-amber-100/50 flex-shrink-0">
           <p className="text-[10px] text-slate-400 font-bold tracking-tight">
-            رَبْط © ٢٠٢٤ • صُنِع بشغف للغة الضاد
+            رَوابِط © ٢٠٢٤ • صُنِع بشغف للغة الضاد
           </p>
         </footer>
       )}
