@@ -19,7 +19,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "fruits",
           title: "فواكه لذيذة",
           icon: "🍉",
-          color: "#EF4444",
+          color: "#E11D48",
           description: "ثمار طبيعية غنية بالفيتامينات",
           words: ["بطيخ", "عنب", "تين", "تفاح"]
         },
@@ -27,7 +27,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "pets",
           title: "حيوانات أليفة",
           icon: "🐱",
-          color: "#F59E0B",
+          color: "#EAB308",
           description: "كائنات لطيفة تعيش بالقرب من الإنسان",
           words: ["قطة", "كلب", "أرنب", "حصان"]
         },
@@ -35,7 +35,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "colors",
           title: "ألوان أساسية",
           icon: "🎨",
-          color: "#3B82F6",
+          color: "#2563EB",
           description: "درجات لونية مميزة في الطبيعة",
           words: ["أحمر", "أزرق", "أصفر", "أخضر"]
         },
@@ -43,7 +43,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "clothes",
           title: "ملابس شتوية",
           icon: "🧣",
-          color: "#10B981",
+          color: "#16A34A",
           description: "أزياء نرتديها لتدفئة الجسد في البرد",
           words: ["معطف", "قبعة", "وشاح", "قفاز"]
         }
@@ -55,7 +55,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "veggies",
           title: "خضروات ورقية",
           icon: "🥬",
-          color: "#10B981",
+          color: "#16A34A",
           description: "نباتات خضراء مفيدة للصحة",
           words: ["خس", "سبانخ", "جرجير", "بقدونس"]
         },
@@ -63,7 +63,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "birds",
           title: "طيور مغردة",
           icon: "🐦",
-          color: "#3B82F6",
+          color: "#2563EB",
           description: "عصافير تتميز بأصواتها العذبة",
           words: ["بلبل", "حسون", "كناري", "عندليب"]
         },
@@ -71,7 +71,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "transport",
           title: "وسائل مواصلات",
           icon: "🚆",
-          color: "#6366F1",
+          color: "#E11D48",
           description: "مركبات تنقل الناس والبضائع",
           words: ["قطار", "حافلة", "طائرة", "سفينة"]
         },
@@ -79,7 +79,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "school",
           title: "أدوات مدرسية",
           icon: "✏️",
-          color: "#F59E0B",
+          color: "#EAB308",
           description: "مستلزمات الدراسة والكتابة",
           words: ["قلم", "مسطرة", "ممحاة", "دفتر"]
         }
@@ -91,7 +91,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "crafts",
           title: "مهن وحرف",
           icon: "🔨",
-          color: "#F97316",
+          color: "#EAB308",
           description: "أعمال يدوية نافعة للمجتمع",
           words: ["نجار", "حداد", "خياط", "فلاح"]
         },
@@ -99,7 +99,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "seasons",
           title: "فصول السنة",
           icon: "🍂",
-          color: "#EAB308",
+          color: "#16A34A",
           description: "أوقات مناخية تدور مدار العام",
           words: ["ربيع", "صيف", "خريف", "شتاء"]
         },
@@ -107,7 +107,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "shapes",
           title: "أشكال هندسية",
           icon: "📐",
-          color: "#8B5CF6",
+          color: "#2563EB",
           description: "رسوم هندسية منتظمة الأضلاع",
           words: ["مربع", "مثلث", "دائرة", "مستطيل"]
         },
@@ -115,7 +115,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "senses",
           title: "حواس الإنسان",
           icon: "👁️",
-          color: "#06B6D4",
+          color: "#E11D48",
           description: "منافذ الإدراك والشعور",
           words: ["بصر", "سمع", "لمس", "تذوق"]
         }
@@ -135,7 +135,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "farm_animals",
           title: "حيوانات المزرعة",
           icon: "🐑",
-          color: "#10B981",
+          color: "#16A34A",
           description: "كائنات نافعة يربيها الإنسان في الحقل",
           words: ["بقرة", "خروف", "ماعز", "حمار"]
         },
@@ -143,7 +143,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "home_furniture",
           title: "أثاث البيت",
           icon: "🛋️",
-          color: "#6366F1",
+          color: "#2563EB",
           description: "مفروشات ومقتنيات ترتيب المنزل",
           words: ["سرير", "أريكة", "طاولة", "خزانة"]
         },
@@ -179,7 +179,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "kitchen_utensils",
           title: "أدوات المائدة",
           icon: "🥄",
-          color: "#3B82F6",
+          color: "#2563EB",
           description: "مستلزمات تناول وتجهيز الطعام",
           words: ["ملعقة", "شوكة", "سكين", "صحن"]
         },
@@ -187,7 +187,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "kids_toys",
           title: "ألعاب الأطفال",
           icon: "🧸",
-          color: "#8B5CF6",
+          color: "#16A34A",
           description: "ألعاب تبهج الصغار وتملأ أوقاتهم مرحاً",
           words: ["دمية", "كرة", "طائرة", "أرجوحة"]
         }
@@ -199,7 +199,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "daily_times",
           title: "أوقات اليوم",
           icon: "⏰",
-          color: "#F59E0B",
+          color: "#EAB308",
           description: "محطات زمنية تمر خلال اليوم الواحد",
           words: ["فجر", "ظهر", "عصر", "مغرب"]
         },
@@ -215,7 +215,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "summer_wear",
           title: "ملابس صيفية",
           icon: "👕",
-          color: "#06B6D4",
+          color: "#EC4899",
           description: "أزياء خفيفة ومناسبة للطقس الدافئ",
           words: ["قميص", "تنورة", "صندل", "قبعة"]
         },
@@ -223,7 +223,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "water_features",
           title: "مسطحات مائية",
           icon: "🌊",
-          color: "#3B82F6",
+          color: "#2563EB",
           description: "معالم طبيعية للماء العذب والمالح",
           words: ["بحر", "نهر", "بحيرة", "شلال"]
         }
@@ -243,7 +243,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "wild_animals",
           title: "حيوانات الغابة",
           icon: "🦒",
-          color: "#D97706",
+          color: "#2563EB",
           description: "مخلوقات برية تعيش في الطبيعة والبراري",
           words: ["زرافة", "فيل", "قرد", "غزال"]
         },
@@ -251,7 +251,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "house_rooms",
           title: "غرف ومرافق البيت",
           icon: "🏡",
-          color: "#10B981",
+          color: "#16A34A",
           description: "أقسام وأجنحة المنزل المتنوعة",
           words: ["مطبخ", "شرفة", "صالة", "حمام"]
         },
@@ -259,7 +259,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "sports_moves",
           title: "أنشطة رياضية",
           icon: "🏃",
-          color: "#6366F1",
+          color: "#9333EA",
           description: "حركات بدنية تنشط الجسد وتقوي العضلات",
           words: ["جري", "قفز", "سباحة", "مشي"]
         }
@@ -271,7 +271,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "footwear",
           title: "أحذية ومطايا القدم",
           icon: "👟",
-          color: "#475569",
+          color: "#334155",
           description: "ملبوسات لحماية القدم أثناء السير",
           words: ["حذاء", "خف", "جزمة", "قبقاب"]
         },
@@ -279,7 +279,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "art_tools",
           title: "أدوات الرسم",
           icon: "🖌️",
-          color: "#8B5CF6",
+          color: "#EC4899",
           description: "مستلزمات التلوين والتعبير الفني",
           words: ["ريشة", "لوحة", "ألوان", "كراسة"]
         },
@@ -295,7 +295,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "appliances",
           title: "أجهزة كهربائية منزلية",
           icon: "🔌",
-          color: "#0D9488",
+          color: "#06B6D4",
           description: "آلات تسهل الأعمال اليومية في البيت",
           words: ["ثلاجة", "غسالة", "مروحة", "مكنسة"]
         }
@@ -315,7 +315,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "hygiene_tools",
           title: "أدوات العناية الشخصية",
           icon: "🧼",
-          color: "#06B6D4",
+          color: "#16A34A",
           description: "أغراض تساعد في الحفاظ على النظافة",
           words: ["صابون", "مشط", "منشفة", "فرشاة"]
         },
@@ -323,7 +323,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "celestial_bodies",
           title: "أجرام في السماء",
           icon: "✨",
-          color: "#4F46E5",
+          color: "#2563EB",
           description: "معالم نراها في سماء النهار والليل",
           words: ["شمس", "قمر", "نجم", "أرض"]
         },
@@ -343,7 +343,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "baked_goods",
           title: "مخبوزات ومعجنات",
           icon: "🥖",
-          color: "#D97706",
+          color: "#EAB308",
           description: "أطعمة شهية تُعجن وتُخبز في الفرن",
           words: ["خبز", "كعك", "فطيرة", "سمبوسة"]
         },
@@ -351,7 +351,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "precious_treasures",
           title: "حلي وأحجار زينة",
           icon: "💎",
-          color: "#EAB308",
+          color: "#DB2777",
           description: "معادن وجواهر ثمينة للزينة والتجمل",
           words: ["فضة", "ذهب", "لؤلؤ", "مرجان"]
         },
@@ -359,7 +359,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "comm_devices",
           title: "وسائل الاتصال والإعلام",
           icon: "📻",
-          color: "#6366F1",
+          color: "#2563EB",
           description: "وسائط تواصل وتبادل للأخبار والمعلومات",
           words: ["هاتف", "رسالة", "مذياع", "تلفاز"]
         },
@@ -367,7 +367,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "limb_parts",
           title: "أطراف الجسد",
           icon: "🖐️",
-          color: "#10B981",
+          color: "#16A34A",
           description: "أعضاء الحركة والإمساك في جسم الإنسان",
           words: ["يد", "قدم", "ساق", "ذراع"]
         }
@@ -469,7 +469,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "finance",
           title: "معاملات مالية ومصرفية",
           icon: "🪙",
-          color: "#CA8A04",
+          color: "#EAB308",
           description: "عقود وصكوك تداول الأموال",
           words: ["صك", "قرض", "وديعة", "رهن"]
         },
@@ -489,7 +489,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "intellect_traits",
           title: "صفات العقل والرجاحة",
           icon: "🧠",
-          color: "#4F46E5",
+          color: "#E11D48",
           description: "سمات تدل على النباهة وحسن التقدير",
           words: ["فطنة", "حكمة", "نباهة", "دهاء"]
         },
@@ -497,7 +497,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "medicinal_herbs",
           title: "نباتات طبية وعشبية",
           icon: "🌿",
-          color: "#10B981",
+          color: "#16A34A",
           description: "أعشاب نافعة يستطب بها في الطب التقليدي",
           words: ["مرمية", "زعتر", "بابونج", "حلبة"]
         },
@@ -505,7 +505,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "sea_vessels",
           title: "سفن ومراكب بحرية",
           icon: "⛵",
-          color: "#0284C7",
+          color: "#2563EB",
           description: "وسائط الإبحار والتنقل فوق المياه",
           words: ["زورق", "يخت", "فلوكة", "بارجة"]
         },
@@ -513,7 +513,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "coastal_landforms",
           title: "تضاريس ساحلية",
           icon: "🏖️",
-          color: "#D97706",
+          color: "#EAB308",
           description: "تشكلات اليابسة عند التقائها بمياه البحر",
           words: ["شاطئ", "رأس", "شبه‌جزيرة", "كثيب"]
         }
@@ -541,7 +541,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "measurement_tools",
           title: "أدوات القياس والملاحة",
           icon: "🧭",
-          color: "#CA8A04",
+          color: "#EAB308",
           description: "أجهزة ضبط المقادير وتحديد الاتجاهات",
           words: ["بوصلة", "أسطرلاب", "معيار", "ساعة"]
         },
@@ -577,7 +577,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "industrial_metals",
           title: "معادن أرضية",
           icon: "⛏️",
-          color: "#78716C",
+          color: "#DC2626",
           description: "فلزات تستخرج من باطن الأرض وتطرق",
           words: ["نحاس", "حديد", "رصاص", "قصدير"]
         },
@@ -585,7 +585,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "heritage_arch",
           title: "معالم عمارة إسلامية",
           icon: "🕌",
-          color: "#D97706",
+          color: "#EAB308",
           description: "عناصر بارزة في الهندسة المعمارية التراثية",
           words: ["مئذنة", "قبة", "رواق", "قلعة"]
         }
@@ -605,7 +605,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "soil_types",
           title: "أنواع التربة والأرض",
           icon: "🪴",
-          color: "#854D0E",
+          color: "#16A34A",
           description: "طبقات الأرض ورواسبها الطبيعية",
           words: ["صلصال", "رمل", "طمي", "حصى"]
         },
@@ -613,7 +613,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "thinking_verbs",
           title: "أفعال النظر والتأمل",
           icon: "💡",
-          color: "#0891B2",
+          color: "#0284C7",
           description: "عمليات التفكير والاستنتاج العقلي",
           words: ["تأمل", "استنباط", "تمحيص", "إدراك"]
         },
@@ -621,7 +621,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "oriental_instruments",
           title: "آلات موسيقية شرقية",
           icon: "🪕",
-          color: "#B45309",
+          color: "#9333EA",
           description: "أدوات الإيقاع والعزف في التراث العربي",
           words: ["عود", "ناي", "قانون", "ربابة"]
         }
@@ -713,7 +713,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "mountain_passes",
           title: "ممرات ومنافذ الجبال",
           icon: "🧗",
-          color: "#78716C",
+          color: "#2563EB",
           description: "مسالك وعرة بين الجبال والتلال",
           words: ["فج", "شعب", "نقب", "عقبة"]
         },
@@ -721,7 +721,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "perseverance",
           title: "نعوت الصبر والثبات",
           icon: "⚓",
-          color: "#047857",
+          color: "#16A34A",
           description: "معاني الصمود وحبس النفس عند الشدائد",
           words: ["تحمل", "مصابرة", "أناة", "حلم"]
         },
@@ -751,7 +751,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "lion_names",
           title: "من أسماء ملك الغاب",
           icon: "🦁",
-          color: "#D97706",
+          color: "#EAB308",
           description: "نعوت الأسد المتواترة في المعاجم",
           words: ["غضنفر", "قسورة", "ليث", "ضرغام"]
         },
@@ -767,7 +767,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "horse_traits",
           title: "أوصاف الخيل الأصيلة",
           icon: "🐎",
-          color: "#92400E",
+          color: "#16A34A",
           description: "مفردات الفروسية والسبق والصفات العالية",
           words: ["طِرف", "سابح", "جواد", "كميت"]
         }
@@ -779,7 +779,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "plurals_rare",
           title: "جموع قلة وتكسير معجمية",
           icon: "📚",
-          color: "#4F46E5",
+          color: "#2563EB",
           description: "صيغ جموع فصيحة على أوزان عربية محكمة",
           words: ["أفئدة", "صبية", "أسلحة", "غلمة"]
         },
@@ -787,7 +787,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "poetry_meters",
           title: "بحور الشعر الخليلية",
           icon: "🎼",
-          color: "#0891B2",
+          color: "#16A34A",
           description: "أوزان وموازين القريض العربي",
           words: ["طويل", "بسيط", "كامل", "وافر"]
         },
@@ -795,7 +795,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "moon_mansions",
           title: "منازل وأنواء القمر",
           icon: "🌙",
-          color: "#7E22CE",
+          color: "#EAB308",
           description: "محطات فلكية رصدها العرب قديماً",
           words: ["ثريا", "دبران", "سماك", "عواء"]
         },
@@ -803,7 +803,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "bravery",
           title: "نعوت الشجاعة والبسالة",
           icon: "🛡️",
-          color: "#B91C1C",
+          color: "#DC2626",
           description: "أوصاف الصناديد في ميادين الإقدام",
           words: ["مقدام", "صنديد", "باسل", "هصور"]
         }
@@ -815,7 +815,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "rain_grades",
           title: "مراتب المطر في المعجم",
           icon: "🌧️",
-          color: "#0284C7",
+          color: "#2563EB",
           description: "درجات الغيث من الرذاذ إلى السيل",
           words: ["رذاذ", "وابل", "طش", "ديمة"]
         },
@@ -823,7 +823,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "night_hours",
           title: "ساعات وظلمات الليل",
           icon: "🌌",
-          color: "#312E81",
+          color: "#1E293B",
           description: "تقسيمات أوقات السواد في اللسان العربي",
           words: ["شفق", "غسق", "عتمة", "سدفة"]
         },
@@ -831,7 +831,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "calligraphy_scripts",
           title: "أقلام الخط العربي الأصيل",
           icon: "🖋️",
-          color: "#78350F",
+          color: "#16A34A",
           description: "أنواع الرسم والحرف العربي الشريف",
           words: ["كوفي", "ثلث", "ديواني", "رقعة"]
         },
@@ -851,7 +851,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "wolf_names",
           title: "من أسماء الذئب في المعجم",
           icon: "🐺",
-          color: "#64748B",
+          color: "#EAB308",
           description: "ألقاب الذئب في اللسان العربي ومأثور البادية",
           words: ["أوس", "عاسل", "ذؤالة", "عملس"]
         },
@@ -859,7 +859,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "wind_names",
           title: "أسماء الرياح وأطباعها",
           icon: "💨",
-          color: "#0284C7",
+          color: "#2563EB",
           description: "أنواع هبوب الرياح بحسب جهاتها وقوتها",
           words: ["دبور", "صبا", "نعام", "حاصب"]
         },
@@ -867,7 +867,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "love_stages",
           title: "مراتب العشق والصبابة",
           icon: "❤️",
-          color: "#BE185D",
+          color: "#E11D48",
           description: "درجات الميل القلبي في فقه اللغة وسر العربية",
           words: ["هوى", "صبابة", "كلف", "عشق"]
         },
@@ -875,7 +875,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "great_lexicons",
           title: "أمهات المعاجم العربية",
           icon: "📖",
-          color: "#854D0E",
+          color: "#16A34A",
           description: "موسوعات ألفاظ الضاد الكبرى عبر العصور",
           words: ["اللسان", "القاموس", "العين", "الصحاح"]
         }
@@ -887,7 +887,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "camel_epithets",
           title: "من أسماء ونعوت الإبل",
           icon: "🐪",
-          color: "#CA8A04",
+          color: "#2563EB",
           description: "مسميات سفينة الصحراء في أشعار العرب",
           words: ["ناقة", "عيس", "ضامرة", "راحلة"]
         },
@@ -895,7 +895,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "desert_names",
           title: "ألقاب الصحراء والقفار",
           icon: "🏜️",
-          color: "#D97706",
+          color: "#EAB308",
           description: "ألفاظ تطلق على المهامة والبراري الشاسعة",
           words: ["بيداء", "فلاة", "تيهاء", "يهماء"]
         },
@@ -903,7 +903,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "generosity_traits",
           title: "نعوت الكرم والندى",
           icon: "🤲",
-          color: "#059669",
+          color: "#16A34A",
           description: "أوصاف الجواد باذل المال والمكارم",
           words: ["ندى", "سخي", "فياض", "أريحي"]
         },
@@ -911,7 +911,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "prosody_terms",
           title: "مصطلحات علم العروض",
           icon: "📐",
-          color: "#6D28D9",
+          color: "#DC2626",
           description: "أركان بناء البيت الشعري في ميزان الخليل",
           words: ["تفعيلة", "سبب", "وتد", "قافية"]
         }
@@ -923,7 +923,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "spear_names",
           title: "من مسميات الرمح والقنا",
           icon: "🔱",
-          color: "#991B1B",
+          color: "#DC2626",
           description: "ألقاب الرماح ونسبتها إلى مواطن صقلها",
           words: ["قنا", "رديني", "خطي", "ذابل"]
         },
@@ -931,7 +931,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "eternity_words",
           title: "ألفاظ الدوام والخلود",
           icon: "♾️",
-          color: "#312E81",
+          color: "#2563EB",
           description: "كلمات تعبر عن الأمد اللانهائي والسرمدية",
           words: ["أبد", "سرمد", "أزل", "خلد"]
         },
@@ -939,7 +939,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "birds_of_prey",
           title: "من أسماء كواسر الطير",
           icon: "🦅",
-          color: "#B45309",
+          color: "#EAB308",
           description: "ألقاب الصقور والجوارح ذوات المخالب الصائدة",
           words: ["باز", "شاهين", "أجدل", "قطامي"]
         },
@@ -947,7 +947,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "rhetoric_masters",
           title: "أئمة البلاغة والبيان",
           icon: "📜",
-          color: "#047857",
+          color: "#16A34A",
           description: "علماء أرسوا قواعد النقد والإعجاز اللغوي",
           words: ["الجاحظ", "الجرجاني", "ابن‌جني", "السكاكي"]
         }
@@ -959,7 +959,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "well_names",
           title: "مسميات البئر في لسان العرب",
           icon: "🪣",
-          color: "#0369A1",
+          color: "#2563EB",
           description: "ألفاظ الآبار وتفاوت عمق مياهها وطريقة حفرها",
           words: ["قليب", "جب", "ركية", "طوي"]
         },
@@ -975,7 +975,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "wisdom_proofs",
           title: "ألفاظ الحجة والبرهان",
           icon: "⚖️",
-          color: "#7E22CE",
+          color: "#16A34A",
           description: "ألفاظ تدل على قطعية الدلالة والبيان الحكيم",
           words: ["فصل", "حجة", "برهان", "بيان"]
         },
@@ -983,7 +983,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "animal_sounds_rare",
           title: "أصوات الخيل والإبل في المعجم",
           icon: "🐎",
-          color: "#92400E",
+          color: "#EAB308",
           description: "أوصاف دقيقة لنبرات أصوات الدواب والجياد",
           words: ["صهيل", "حمحمة", "رغاء", "ضبح"]
         }
@@ -1003,7 +1003,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "rain_clouds_noble",
           title: "أوصاف السحاب الماطر والمغيث",
           icon: "☁️",
-          color: "#0284C7",
+          color: "#2563EB",
           description: "نعوت الغمام المثقل بماء الغيث النافع",
           words: ["معصرات", "رباب", "صيب", "حيا"]
         },
@@ -1011,7 +1011,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "death_synonyms",
           title: "من أسماء الموت والمنية",
           icon: "⏳",
-          color: "#475569",
+          color: "#DC2626",
           description: "مترادفات انقضاء الأجل في الفصيح من القول",
           words: ["حتف", "حمام", "ردى", "منية"]
         },
@@ -1019,7 +1019,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "exaggeration_scales",
           title: "أوزان صيغ المبالغة القياسية",
           icon: "⚖️",
-          color: "#B45309",
+          color: "#EAB308",
           description: "صيغ صرفية تدل على الكثرة وقوة حدوث الفعل",
           words: ["فعال", "مفعال", "فعول", "فعيل"]
         }
@@ -1047,7 +1047,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "serpent_names",
           title: "من مسميات الحية والصل",
           icon: "🐍",
-          color: "#4D7C0F",
+          color: "#DC2626",
           description: "ألقاب الزواحف السامة في أدب الصحراء",
           words: ["ثعبان", "أرقم", "حية", "أيم"]
         },
@@ -1067,7 +1067,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "gold_silver_terms",
           title: "من مسميات الذهب والفضة",
           icon: "✨",
-          color: "#CA8A04",
+          color: "#EAB308",
           description: "ألفاظ الصامت الثمين من المعادن في الفصحى",
           words: ["عقيان", "تبر", "عسجد", "لجين"]
         },
@@ -1075,7 +1075,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "bird_beast_cries",
           title: "أصوات الطير والسباع المأثورة",
           icon: "🦉",
-          color: "#B91C1C",
+          color: "#DC2626",
           description: "أصوات الكائنات في معجم فقه اللغة للثعالبي",
           words: ["هديل", "زئير", "عواء", "نعيق"]
         },
@@ -1083,7 +1083,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "muallaqat_poets",
           title: "من شعراء المعلقات العشر",
           icon: "👑",
-          color: "#78350F",
+          color: "#2563EB",
           description: "فرسان الشعر الجاهلي وأصحاب القصائد الذهبية",
           words: ["امرؤ‌القيس", "زهير", "عنترة", "طرفة"]
         },
@@ -1091,7 +1091,7 @@ export const FALLBACK_DATABASE: Record<Difficulty, Record<number, RawLevelData>>
           id: "nobility_titles",
           title: "ألقاب السيادة والرفعة",
           icon: "🎖️",
-          color: "#047857",
+          color: "#16A34A",
           description: "نعوت القادة والأشراف ذوي الهمم العالية",
           words: ["همام", "قيل", "غطريف", "صنديد"]
         }

@@ -75,7 +75,7 @@ export const WordCard: React.FC<WordCardProps> = ({ word, category, isSelected, 
       {/* Beginner Category Dot */}
       {!word.isSolved && category && (
         <div 
-          className="absolute bottom-1.5 left-2 w-2 h-2 rounded-full shadow-sm ring-1 ring-white/50"
+          className={`absolute bottom-1.5 left-2 w-2.5 h-2.5 rounded-full shadow-sm ${isSelected ? 'ring-2 ring-white' : 'ring-1 ring-black/15'}`}
           style={{ backgroundColor: category.color }}
         />
       )}

@@ -92,7 +92,7 @@ export const CategoryModal: React.FC<CategoryModalProps> = ({
           {/* Content: List of words and their details */}
           <div className="p-4 sm:p-5 overflow-y-auto space-y-3.5 divide-y divide-slate-100/80">
             {wordList.map((wordText, idx) => {
-              const detail = getWordDetail(wordText, category);
+              const detail = getWordDetail(wordText, category, idx);
               return (
                 <div 
                   key={idx} 

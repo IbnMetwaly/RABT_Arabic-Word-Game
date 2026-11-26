@@ -36,19 +36,21 @@ const levelSchema = {
           },
           wordFacts: {
             type: Type.ARRAY,
-            description: "Concise definitions or interesting facts for the 4 words in this category",
+            description: "Unique, non-repetitive definitions and interesting facts for each of the 4 words in this category",
+            minItems: 4,
+            maxItems: 4,
             items: {
               type: Type.OBJECT,
               properties: {
                 word: { type: Type.STRING },
-                definition: { type: Type.STRING, description: "A short 1-sentence definition of the word in Arabic" },
-                fact: { type: Type.STRING, description: "An interesting linguistic, historical, or scientific fact in Arabic" }
+                definition: { type: Type.STRING, description: "A short, specific 1-sentence Arabic definition tailored to this exact word" },
+                fact: { type: Type.STRING, description: "A unique, specific linguistic, historical, or scientific fact in Arabic for this exact word (never repeat templates across words)" }
               },
               required: ["word", "definition", "fact"]
             }
           }
         },
-        required: ["id", "title", "icon", "color", "description", "words"]
+        required: ["id", "title", "icon", "color", "description", "words", "wordFacts"]
       },
       minItems: 4,
       maxItems: 6
@@ -79,10 +81,11 @@ app.post("/api/level", async (req, res) => {
         Rules:
         - Create ${categoryCount} unique categories of 4 words each (Total ${totalWords} words).
         - Logic should follow Modern Standard Arabic (MSA).
-        - Each category MUST have a unique, highly relevant emoji and a distinct, vibrant HEX color that fits the theme.
+        - Each category MUST have a unique, highly relevant emoji and a MAXIMALLY DISTINCT HEX color from different hue families (e.g. Crimson Red #E11D48, Emerald Green #10B981, Sky Blue #0284C7, Golden Amber #F59E0B — NEVER assign two shades of blue/purple or two shades of orange/yellow in the same level).
         - Vary themes: Beginner (concrete nouns like animals, food), Intermediate (abstract nouns/verbs), Expert (literary roots, rare words, historical figures).
         - Ensure strict orthographic accuracy for 'Hamza' and 'Ta Marbuta'.
         - Words should be challenging but related by a clear, logical thread.
+        - For wordFacts, provide a genuinely distinct, specific Arabic definition and interesting fact for EACH word individually — never reuse or repeat the same template sentence across words.
         - Output must be in JSON format.
       `;
 
@@ -99,7 +102,21 @@ app.post("/api/level", async (req, res) => {
       if (text) {
         const rawData = JSON.parse(text);
         if (rawData?.categories && Array.isArray(rawData.categories) && rawData.categories.length > 0) {
-          const categories: Category[] = rawData.categories.map((c: any) => {
+          // Guaranteed maximally distinct high-contrast color palette (Crimson, Leaf Green, Royal Blue, Gold, Purple, Orange)
+          const DISTINCT_PALETTE = ["#E11D48", "#16A34A", "#2563EB", "#EAB308", "#9333EA", "#EA580C"];
+          const parseRgb = (hex: string): [number, number, number] | null => {
+            const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex.trim());
+            return m ? [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)] : null;
+          };
+          const colorDistance = (c1: string, c2: string): number => {
+            const rgb1 = parseRgb(c1);
+            const rgb2 = parseRgb(c2);
+            if (!rgb1 || !rgb2) return 0;
+            return Math.hypot(rgb1[0] - rgb2[0], rgb1[1] - rgb2[1], rgb1[2] - rgb2[2]);
+          };
+
+          const usedColors: string[] = [];
+          const categories: Category[] = rawData.categories.map((c: any, index: number) => {
             const wordFacts: Record<string, { definition: string; fact: string }> = {};
             if (Array.isArray(c.wordFacts)) {
               c.wordFacts.forEach((wf: any) => {
@@ -112,11 +129,21 @@ app.post("/api/level", async (req, res) => {
               });
             }
 
+            let chosenColor = String(c.color || "").trim();
+            const isValidHex = !!parseRgb(chosenColor);
+            const isTooClose = !isValidHex || usedColors.some((existing) => colorDistance(existing, chosenColor) < 120);
+            if (isTooClose) {
+              chosenColor = DISTINCT_PALETTE.find((candidate) =>
+                usedColors.every((existing) => colorDistance(existing, candidate) >= 120)
+              ) || DISTINCT_PALETTE[index % DISTINCT_PALETTE.length];
+            }
+            usedColors.push(chosenColor);
+
             return {
               id: String(c.id || Math.random().toString(36).substr(2, 5)),
               title: String(c.title || "مجموعة"),
               icon: String(c.icon || "✨"),
-              color: String(c.color || "#0284C7"),
+              color: chosenColor,
               description: String(c.description || ""),
               wordFacts: Object.keys(wordFacts).length > 0 ? wordFacts : undefined
             };
